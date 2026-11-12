@@ -1,0 +1,775 @@
+{
+  "_comment": "Dia 1: Golpes e engenharia social. Textos aceitam {companyName}, {channels.urgent|question|announcement|sensitive}, {org.<role>} (nome) e {orgTitle.<role>} (função), vindos de company.config.json.",
+  "tasks": [
+    {
+      "id": "t0",
+      "name": "Crachá é pessoal",
+      "theme": "acesso_fisico",
+      "archetype": "G",
+      "mechanic": "swipe",
+      "zoneId": "z0",
+      "npc": "Catraca do acampamento",
+      "prompt": "Para a estrada abrir, a catraca precisa registrar a SUA entrada. Crachá é pessoal: nada de emprestar nem de passar alguém junto.",
+      "howTo": "Arraste o crachá pelo leitor num ritmo firme.",
+      "severity": "leve",
+      "effectId": "none",
+      "effectWrong": "A catraca apitou tantas vezes que o Seu Jorge veio conferir se era alguém tentando entrar com o crachá dos outros.",
+      "feedbackRule": "O crachá é pessoal: é você quem passa, sempre no seu nome.",
+      "feedbackWhy": "A catraca registra quem entrou e quando; crachá emprestado faz a responsabilidade cair em você.",
+      "early": 0.35,
+      "late": 1.1
+    },
+    {
+      "id": "1.1",
+      "name": "Quem pode entrar?",
+      "theme": "acesso_fisico",
+      "archetype": "A",
+      "zoneId": "z1",
+      "npc": "Mural do acampamento",
+      "prompt": "Quatro pessoas querem entrar na área do evento. Cada uma tem um tipo de acesso permitido.",
+      "howTo": "Puxe um fio de cada pessoa até o acesso que ela pode ter. Depois clique em Conferir ligações.",
+      "severity": "medio",
+      "effectId": "npcComplain",
+      "effectWrong": "Alguém entrou onde não podia e a segurança veio perguntar: \"Quem deixou essa pessoa passar?\"",
+      "feedbackRule": "Cada pessoa entra só com o acesso dela: equipe com o próprio crachá, visitante acompanhado, quem está sem crachá passa no credenciamento, e quem você não sabe quem é fica com a segurança.",
+      "feedbackWhy": "Segurar a porta para quem você não conhece é o jeito mais fácil de alguém de fora entrar. O controle de acesso existe para a empresa saber quem está lá dentro.",
+      "retryVariantId": "1.1b",
+      "targets": [
+        {
+          "key": "equipe",
+          "label": "Entra com o próprio crachá"
+        },
+        {
+          "key": "visita",
+          "label": "Entra acompanhado, com crachá de visitante"
+        },
+        {
+          "key": "credencial",
+          "label": "Passa antes no credenciamento ({org.rh})"
+        },
+        {
+          "key": "seguranca",
+          "label": "Não entra: chamar {org.seguranca} ({orgTitle.seguranca})"
+        }
+      ],
+      "items": [
+        {
+          "text": "Colega da equipe com o crachá dele",
+          "target": "equipe"
+        },
+        {
+          "text": "Cliente com reunião marcada com {org.lider}",
+          "target": "visita"
+        },
+        {
+          "text": "Estagiária no primeiro dia, ainda sem crachá",
+          "target": "credencial"
+        },
+        {
+          "text": "Desconhecido de colete pedindo para você segurar a porta",
+          "target": "seguranca"
+        }
+      ],
+      "mechanic": "wires"
+    },
+    {
+      "id": "1.1b",
+      "name": "Quem pode entrar? (variação)",
+      "theme": "acesso_fisico",
+      "archetype": "A",
+      "zoneId": "z1",
+      "variant": true,
+      "npc": "Mural do acampamento",
+      "prompt": "Mais quatro pessoas na entrada. Desta vez, outros casos.",
+      "howTo": "Puxe um fio de cada pessoa até o acesso que ela pode ter. Depois clique em Conferir ligações.",
+      "severity": "medio",
+      "effectId": "npcComplain",
+      "effectWrong": "De novo alguém passou sem o acesso certo. A segurança deixou um bilhete: \"Na dúvida, chame a gente.\"",
+      "feedbackRule": "Cada pessoa entra só com o acesso dela: equipe com o próprio crachá, visitante acompanhado, quem está sem crachá passa no credenciamento, e quem você não sabe quem é fica com a segurança.",
+      "feedbackWhy": "Segurar a porta para quem você não conhece é o jeito mais fácil de alguém de fora entrar. O controle de acesso existe para a empresa saber quem está lá dentro.",
+      "targets": [
+        {
+          "key": "equipe",
+          "label": "Entra com o próprio crachá"
+        },
+        {
+          "key": "visita",
+          "label": "Entra acompanhado, com crachá de visitante"
+        },
+        {
+          "key": "credencial",
+          "label": "Passa antes no credenciamento ({org.rh})"
+        },
+        {
+          "key": "seguranca",
+          "label": "Não entra: chamar {org.seguranca} ({orgTitle.seguranca})"
+        }
+      ],
+      "items": [
+        {
+          "text": "Técnico da manutenção com crachá de prestador",
+          "target": "equipe"
+        },
+        {
+          "text": "Familiar de um colega que veio buscá-lo",
+          "target": "visita"
+        },
+        {
+          "text": "Fotógrafo contratado, ainda sem credencial",
+          "target": "credencial"
+        },
+        {
+          "text": "Pessoa que diz ser da TI e quer entrar \"só um minutinho\" no estande, sem crachá",
+          "target": "seguranca"
+        }
+      ],
+      "mechanic": "wires"
+    },
+    {
+      "id": "1.2",
+      "name": "Alertas de segurança: o que vem primeiro?",
+      "theme": "engenharia_social",
+      "archetype": "B",
+      "zoneId": "z2",
+      "npc": "Quadro de alertas do acampamento",
+      "prompt": "Hora do pico no acampamento: os alertas vão chegar todos de uma vez. Cada um tem a sua hora, e grito de URGENTE pode ser golpe.",
+      "howTo": "Os alertas chegam na caixa de entrada, às vezes vários juntos, cada um com um pavio queimando. Arraste cada um para a coluna certa (ou aperte 1 a 4: vai o alerta mais perto de estourar). No Agora só cabem 2 de cada vez, até você terminar. Fique de olho: um alerta já guardado pode mudar.",
+      "severity": "medio",
+      "effectId": "pending",
+      "effectWrong": "Um alerta sério ficou esperando no fim da fila, e a task ficou pendente.",
+      "feedbackRule": "Risco agora (vírus, pen drive, invasão) vai para Agora; prazo hoje, para Ainda hoje; o que dá para planejar, para Esta semana. Pressa pedindo senha, código ou dinheiro: confirme com o líder. Grito de URGENTE pode ser a pista do golpe, e prioridade muda: reveja quando chegar atualização.",
+      "feedbackWhy": "Na ordem de chegada, o risco real espera; Agora lotado não termina nada. Golpista usa a pressa para você não pensar.",
+      "retryVariantId": "1.2b",
+      "seconds": 11,
+      "targets": [
+        {
+          "key": "now",
+          "label": "Agora"
+        },
+        {
+          "key": "today",
+          "label": "Ainda hoje"
+        },
+        {
+          "key": "week",
+          "label": "Esta semana"
+        },
+        {
+          "key": "ask",
+          "label": "Desconfiar: confirmar com {org.lider}"
+        }
+      ],
+      "items": [
+        {
+          "at": 0,
+          "text": "O notebook do estande está abrindo pop-ups e programas sozinho.",
+          "target": "now"
+        },
+        {
+          "at": 1.5,
+          "text": "Trocar a senha padrão do Wi-Fi do estande até o fim do dia.",
+          "target": "today",
+          "change": "now",
+          "changeText": "a senha padrão do Wi-Fi apareceu num post público: troque já."
+        },
+        {
+          "at": 3,
+          "text": "Ler a política de senhas da empresa.",
+          "target": "week"
+        },
+        {
+          "at": 6,
+          "text": "\"Financeiro\" por mensagem: \"Pague este boleto até as 15h. É urgente!\"",
+          "target": "ask"
+        },
+        {
+          "at": 6.2,
+          "text": "\"Suporte\" por mensagem: \"Às 15h me passa seu login, é urgentíssimo!\"",
+          "target": "ask"
+        },
+        {
+          "at": 8,
+          "text": "Pen drive achado no chão, já espetado no notebook do estande.",
+          "target": "now"
+        },
+        {
+          "at": 9.5,
+          "tag": "URGENTE!!!",
+          "text": "Responder a pesquisa de satisfação do curso de segurança.",
+          "target": "week"
+        },
+        {
+          "at": 11,
+          "text": "Fazer o backup das fotos do evento antes de ir embora.",
+          "target": "today"
+        },
+        {
+          "at": 12,
+          "text": "O antivírus avisou: arquivo infectado no computador da recepção.",
+          "target": "now"
+        },
+        {
+          "at": 13.5,
+          "text": "Avisar a equipe do e-mail falso de \"premiação\" que está circulando.",
+          "target": "today"
+        },
+        {
+          "at": 15,
+          "tag": "PRIORIDADE MÁXIMA",
+          "text": "Trocar o papel de parede dos computadores pelo logo novo.",
+          "target": "week"
+        },
+        {
+          "at": 16,
+          "text": "Instalar a atualização do sistema do totem antes do intervalo.",
+          "target": "today",
+          "change": "week",
+          "changeText": "a TI vai atualizar todos os totens juntos na segunda."
+        }
+      ],
+      "mechanic": "triage"
+    },
+    {
+      "id": "1.2b",
+      "name": "Alertas de segurança: o que vem primeiro? (variação)",
+      "theme": "engenharia_social",
+      "archetype": "B",
+      "zoneId": "z2",
+      "variant": true,
+      "npc": "Quadro de alertas do acampamento",
+      "prompt": "Nova leva de alertas, mesmo quadro. Cada um na sua coluna, e de olho nas mudanças.",
+      "howTo": "Os alertas chegam na caixa de entrada, às vezes vários juntos, cada um com um pavio queimando. Arraste cada um para a coluna certa (ou aperte 1 a 4: vai o alerta mais perto de estourar). No Agora só cabem 2 de cada vez, até você terminar. Fique de olho: um alerta já guardado pode mudar.",
+      "severity": "medio",
+      "effectId": "pending",
+      "effectWrong": "De novo um risco real ficou para depois.",
+      "feedbackRule": "Risco agora (vírus, pen drive, invasão) vai para Agora; prazo hoje, para Ainda hoje; o que dá para planejar, para Esta semana. Pressa pedindo senha, código ou dinheiro: confirme com o líder. Grito de URGENTE pode ser a pista do golpe, e prioridade muda: reveja quando chegar atualização.",
+      "feedbackWhy": "Na ordem de chegada, o risco real espera; Agora lotado não termina nada. Golpista usa a pressa para você não pensar.",
+      "seconds": 12,
+      "targets": [
+        {
+          "key": "now",
+          "label": "Agora"
+        },
+        {
+          "key": "today",
+          "label": "Ainda hoje"
+        },
+        {
+          "key": "week",
+          "label": "Esta semana"
+        },
+        {
+          "key": "ask",
+          "label": "Desconfiar: confirmar com {org.lider}"
+        }
+      ],
+      "items": [
+        {
+          "at": 0,
+          "text": "Um colega clicou num link e o computador começou a trancar os arquivos.",
+          "target": "now"
+        },
+        {
+          "at": 1.5,
+          "text": "Tirar o acesso do estagiário que saiu ontem.",
+          "target": "today"
+        },
+        {
+          "at": 3,
+          "tag": "URGENTE!!!",
+          "text": "Organizar as pastas compartilhadas da equipe.",
+          "target": "week"
+        },
+        {
+          "at": 5,
+          "text": "\"Diretor\" por SMS: \"Compre 5 cartões-presente às 14h, sem falta!\"",
+          "target": "ask"
+        },
+        {
+          "at": 5.2,
+          "text": "\"Banco\": \"Às 14h seu acesso será bloqueado, confirme seus dados!\"",
+          "target": "ask"
+        },
+        {
+          "at": 7.5,
+          "text": "Notebook da equipe esquecido desbloqueado no refeitório.",
+          "target": "now"
+        },
+        {
+          "at": 9,
+          "text": "Revisar quem tem acesso à planilha de convidados.",
+          "target": "week",
+          "change": "today",
+          "changeText": "a planilha de convidados foi compartilhada com um link público por engano."
+        },
+        {
+          "at": 11,
+          "text": "Avisar a equipe que a senha do Wi-Fi do evento mudou.",
+          "target": "today"
+        }
+      ],
+      "mechanic": "triage"
+    },
+    {
+      "id": "1.3",
+      "name": "Quem está perguntando?",
+      "theme": "engenharia_social",
+      "archetype": "D",
+      "zoneId": "z3",
+      "npc": "Lia (Recepção)",
+      "lines": [
+        "Oi! Você é o estagiário novo? Que bom que chegou, a recepção tá uma loucura hoje.",
+        "Você: Sou eu sim, primeiro dia! Tá precisando de alguma coisa?",
+        "Então... um rapaz passou aqui agora há pouco. Disse que é seu colega de equipe.",
+        "Você: Colega meu? Qual era o nome dele?",
+        "Não falou o nome, só disse que era urgente. Pediu o seu telefone e a agenda do estande. Passo para ele?"
+      ],
+      "prompt": "A recepcionista do evento recebeu um pedido sobre você.",
+      "howTo": "Escolha o que dizer.",
+      "severity": "leve",
+      "effectId": "npcLeaves",
+      "effectWrong": "A Lia passou seus dados para o \"colega\", e você ficou sem o mapa do estande.",
+      "feedbackRule": "Informação sua ou da equipe só sai para quem você confirmou quem é.",
+      "feedbackWhy": "O golpe começa com informação pequena: um telefone, um nome, uma agenda. Com isso, o golpista finge ser alguém de confiança.",
+      "retryVariantId": "1.3b",
+      "options": [
+        {
+          "text": "Não passa ainda, por favor: pergunta o nome dele que eu confirmo com {org.lider} se é da equipe.",
+          "outcome": "ideal",
+          "reply": "Boa! Quando perguntei o nome, ele foi embora. Toma o mapa do estande."
+        },
+        {
+          "text": "Melhor não passar, obrigado.",
+          "outcome": "acceptable",
+          "reply": "Tá bom, não passo. O mapa tá ali."
+        },
+        {
+          "text": "(Passar direto e pegar um folheto.)",
+          "outcome": "wrong",
+          "reply": "Então eu passo, né? Ele disse que era urgente..."
+        },
+        {
+          "text": "Pode passar tudo, deve ser da equipe.",
+          "outcome": "wrong",
+          "reply": "Passei. Ele já está te mandando mensagem pedindo um código."
+        }
+      ]
+    },
+    {
+      "id": "1.3b",
+      "name": "Quem está perguntando? (variação)",
+      "theme": "engenharia_social",
+      "archetype": "D",
+      "zoneId": "z3",
+      "variant": true,
+      "npc": "Theo (Refeitório)",
+      "lines": [
+        "Opa, cara nova! Tudo certo aí? Já pegou o mapa do evento?",
+        "Você: Peguei sim, valeu! Aconteceu alguma coisa?",
+        "Um moço ali disse que é da TI e quer o seu login para \"liberar o Wi-Fi do estande\".",
+        "Você: Da TI? Ele estava de crachá da empresa?",
+        "Acho que não... mas ele parecia com pressa. Chamo ele?"
+      ],
+      "prompt": "O cozinheiro do evento traz um recado.",
+      "howTo": "Escolha o que dizer.",
+      "severity": "leve",
+      "effectId": "npcLeaves",
+      "effectWrong": "O Theo chamou o moço, e você quase passou o login.",
+      "feedbackRule": "Informação sua ou da equipe só sai para quem você confirmou quem é.",
+      "feedbackWhy": "O golpe começa com informação pequena: um telefone, um nome, uma agenda. Com isso, o golpista finge ser alguém de confiança.",
+      "options": [
+        {
+          "text": "Chama, eu passo o login para ele.",
+          "outcome": "wrong",
+          "reply": "Ele anotou rapidinho e sumiu."
+        },
+        {
+          "text": "Login eu não passo para ninguém. Se ele é da TI mesmo, eu confirmo pelo ramal da TI.",
+          "outcome": "ideal",
+          "reply": "Faz sentido! Quando falei do ramal, ele sumiu."
+        },
+        {
+          "text": "Prefiro não, valeu.",
+          "outcome": "acceptable",
+          "reply": "Beleza!"
+        }
+      ]
+    },
+    {
+      "id": "1.5",
+      "name": "Quem está ligando?",
+      "theme": "engenharia_social",
+      "archetype": "F",
+      "zoneId": "z3",
+      "npc": "Telefone da logística",
+      "show": "Oi, aqui é do suporte da TI. Vimos um acesso estranho na sua conta. Vou mandar um código por SMS: me lê ele agora, é urgente, senão sua conta é bloqueada.",
+      "showSeconds": 6,
+      "prompt": "O telefone toca. A pessoa vai falar uma vez só.",
+      "howTo": "Enquanto a pessoa fala, você pode clicar em ✎ Anotar. Depois marque as pistas que vale registrar (nunca a senha nem o código) e escolha a resposta.",
+      "severity": "medio",
+      "effectId": "rework",
+      "effectWrong": "Faltou anotar uma pista: o aviso para a equipe saiu incompleto e o golpista ligou para outra pessoa (retrabalho).",
+      "feedbackRule": "Ligação que pede senha ou código: não passe nada, anote quem ligou e o que pediu, e confirme pelo canal oficial.",
+      "feedbackWhy": "Nenhum suporte de verdade pede código por telefone. Anotar as pistas ajuda a avisar a equipe antes que o golpista ligue para outra pessoa.",
+      "retryVariantId": "1.5b",
+      "slots": 4,
+      "pieces": [
+        {
+          "text": "diz ser do suporte da TI",
+          "correct": true
+        },
+        {
+          "text": "fala de acesso estranho",
+          "correct": true
+        },
+        {
+          "text": "pede o código do SMS",
+          "correct": true
+        },
+        {
+          "text": "pressiona com urgência",
+          "correct": true
+        },
+        {
+          "text": "o código que chegou no SMS",
+          "correct": false
+        },
+        {
+          "text": "sua senha",
+          "correct": false
+        },
+        {
+          "text": "seu CPF",
+          "correct": false
+        },
+        {
+          "text": "o número da sua conta",
+          "correct": false
+        }
+      ],
+      "options": [
+        {
+          "text": "Não passo senha nem código por telefone. Anotei o que você pediu e vou confirmar pelo ramal oficial da TI.",
+          "outcome": "ideal"
+        },
+        {
+          "text": "Beleza, o código é 4... 8...",
+          "outcome": "wrong"
+        }
+      ],
+      "mechanic": "notes",
+      "steps": [
+        "\"Sou do suporte da TI\"",
+        "\"Vimos um acesso estranho\"",
+        "\"Me lê o código do SMS\"",
+        "\"É urgente, senão bloqueia\"",
+        "...e desliga sem dar o código!"
+      ]
+    },
+    {
+      "id": "1.5b",
+      "name": "Quem está ligando? (variação)",
+      "theme": "engenharia_social",
+      "archetype": "F",
+      "zoneId": "z3",
+      "variant": true,
+      "npc": "Telefone da logística",
+      "show": "Aqui é do banco da empresa. O cartão corporativo foi clonado. Confirma o número do cartão, a validade e o código de trás para eu cancelar.",
+      "showSeconds": 6,
+      "prompt": "Outra ligação. De novo, a pessoa fala uma vez só.",
+      "howTo": "Enquanto a pessoa fala, você pode clicar em ✎ Anotar. Depois marque as pistas que vale registrar (nunca a senha nem o código) e escolha a resposta.",
+      "severity": "medio",
+      "effectId": "rework",
+      "effectWrong": "Pista esquecida de novo: o aviso para a equipe saiu incompleto.",
+      "feedbackRule": "Ligação que pede senha ou código: não passe nada, anote quem ligou e o que pediu, e confirme pelo canal oficial.",
+      "feedbackWhy": "Nenhum suporte de verdade pede código por telefone. Anotar as pistas ajuda a avisar a equipe antes que o golpista ligue para outra pessoa.",
+      "slots": 4,
+      "pieces": [
+        {
+          "text": "diz ser do banco da empresa",
+          "correct": true
+        },
+        {
+          "text": "fala de cartão clonado",
+          "correct": true
+        },
+        {
+          "text": "pede número e validade",
+          "correct": true
+        },
+        {
+          "text": "pede o código de segurança",
+          "correct": true
+        },
+        {
+          "text": "o número do cartão",
+          "correct": false
+        },
+        {
+          "text": "o código de segurança",
+          "correct": false
+        },
+        {
+          "text": "a validade do cartão",
+          "correct": false
+        }
+      ],
+      "options": [
+        {
+          "text": "Ok, o número é...",
+          "outcome": "wrong"
+        },
+        {
+          "text": "Não confirmo dados do cartão por telefone. Anotei e vou ligar no número oficial do banco, que está no verso do cartão.",
+          "outcome": "ideal"
+        }
+      ],
+      "mechanic": "notes",
+      "steps": [
+        "\"Sou do banco da empresa\"",
+        "\"O cartão foi clonado\"",
+        "\"Confirma número e validade\"",
+        "\"Me passa o código de trás\"",
+        "...e liga no número oficial!"
+      ]
+    },
+    {
+      "id": "c1",
+      "name": "O colega que não para de falar",
+      "theme": "engenharia_social",
+      "archetype": "D",
+      "zoneId": "z4",
+      "npc": "Caio (Carteiro)",
+      "lines": [
+        "Opa! Você é o novo? Senta aqui, senta aqui. Tenho que te mostrar uma coisa.",
+        "Você: Oi! Rapidinho, tô indo levar a lista pra ponte.",
+        "Olha a selfie que eu vou postar do evento: eu, o crachá, o quadro com a senha do Wi-Fi atrás...",
+        "Você: Hm... dá pra ler a senha na foto?",
+        "Dá, ficou nítido! E aí eu marco a empresa, o estande, o horário que a gente sai... o Walter vai adorar!"
+      ],
+      "prompt": "Um colega simpático bloqueia o cânion, não para de falar e quer postar uma foto que mostra demais.",
+      "howTo": "Escolha o que dizer.",
+      "severity": "medio",
+      "effectId": "talkerStays",
+      "effectWrong": "O Caio continuou falando e postou a foto. Você perdeu tempo, e a senha do Wi-Fi foi parar na internet.",
+      "feedbackRule": "Encerre a conversa com educação e, se alguém for expor crachá, senha ou rotina da equipe, avise antes.",
+      "feedbackWhy": "Foto com crachá e quadro ao fundo é o presente que o golpista quer; dá para ser gentil e proteger a equipe ao mesmo tempo.",
+      "retryVariantId": "c1b",
+      "options": [
+        {
+          "text": "Ficou boa! Só corta o crachá e o quadro com a senha. Agora preciso levar a lista pra ponte; no almoço você me conta o resto?",
+          "outcome": "ideal",
+          "reply": "Bem pensado, vou cortar! Guarda lugar pra mim."
+        },
+        {
+          "text": "Tá, tá, licença.",
+          "outcome": "acceptable",
+          "reply": "Ah... tá bom. Vou postar então."
+        },
+        {
+          "text": "(Ficar ouvindo até ele terminar.)",
+          "outcome": "wrong",
+          "reply": "...e postei! Já tem 3 curtidas. Uma é de um perfil sem foto."
+        },
+        {
+          "text": "(Passar empurrando.)",
+          "outcome": "wrong",
+          "reply": "Ei! Grosso."
+        }
+      ]
+    },
+    {
+      "id": "c1b",
+      "name": "O colega que não para de falar (variação)",
+      "theme": "engenharia_social",
+      "archetype": "D",
+      "zoneId": "z4",
+      "variant": true,
+      "npc": "Caio (Carteiro)",
+      "lines": [
+        "Ei, ei! Volta aqui, você não viu a melhor parte!",
+        "Você: Caio, tô meio na correria agora...",
+        "É rapidinho! O vídeo do estande: dá pra ver a tela do notebook com todos os e-mails...",
+        "Você: Pera, os e-mails aparecem no vídeo?",
+        "Aparecem! Tá tudo em alta resolução. Vou postar agora."
+      ],
+      "prompt": "O Caio voltou, agora com um vídeo.",
+      "howTo": "Escolha o que dizer.",
+      "severity": "medio",
+      "effectId": "talkerStays",
+      "effectWrong": "Agora é o vídeo. Ele é longo, e mostra a tela inteira.",
+      "feedbackRule": "Encerre a conversa com educação e, se alguém for expor crachá, senha ou rotina da equipe, avise antes.",
+      "feedbackWhy": "Foto com crachá e quadro ao fundo é o presente que o golpista quer; dá para ser gentil e proteger a equipe ao mesmo tempo.",
+      "options": [
+        {
+          "text": "(Fingir que está no telefone.)",
+          "outcome": "wrong",
+          "reply": "Ah, tá no telefone? Eu espero e posto enquanto isso."
+        },
+        {
+          "text": "Caio, tô com prazo agora. E não posta esse vídeo: aparece a tela com os e-mails. Me mostra no intervalo das 15h?",
+          "outcome": "ideal",
+          "reply": "Opa, nem tinha visto! Às 15h."
+        }
+      ]
+    },
+    {
+      "id": "1.4",
+      "name": "Algo estranho: quando e como pedir ajuda",
+      "theme": "engenharia_social",
+      "archetype": "E",
+      "zoneId": "z4",
+      "npc": "Ponte quebrada",
+      "prompt": "O painel eletrônico da ponte do cânion começou a fazer coisas estranhas. Tente o básico e, na hora certa, peça ajuda para {org.seguranca} ({orgTitle.seguranca}).",
+      "howTo": "A barra mostra suas tentativas (e o tempo estimado se você continuar sozinho). Clique em Pedir ajuda quando achar que é a hora. Depois escolha a mensagem.",
+      "severity": "medio",
+      "effectId": "helpVague",
+      "effectWrong": "A resposta veio vaga (\"tenta de novo aí\") e a ponte continuou travada.",
+      "feedbackRule": "Viu algo estranho? Tente só o básico, sem clicar no que pede senha ou pagamento, e peça ajuda dizendo o que viu, o que já fez e até quando precisa.",
+      "feedbackWhy": "Pedir cedo demais gasta a ajuda dos outros; tarde demais deixa o problema crescer; pedido vago recebe resposta vaga.",
+      "retryVariantId": "1.4b",
+      "seconds": 10,
+      "early": 0.3,
+      "late": 0.75,
+      "barLabel": "Tentando resolver sozinho",
+      "steps": [
+        "Reiniciando o painel da ponte...",
+        "Apareceu uma tela pedindo senha de administrador...",
+        "A trava abre e fecha sozinha...",
+        "Mensagem na tela: \"pague para liberar\"...",
+        "Isso vai estourar o prazo..."
+      ],
+      "options": [
+        {
+          "text": "Reiniciei o painel uma vez; depois apareceu um pedido de senha de administrador e uma mensagem pedindo pagamento. Não cliquei em nada. Preciso passar antes da montagem do estande.",
+          "outcome": "ideal",
+          "reply": "Ótimo relato. E fez bem em não clicar: isolei o painel e liberei a trava manual. Pronto!"
+        },
+        {
+          "text": "Me ajuda aí, o painel tá doido.",
+          "outcome": "wrong",
+          "reply": "Doido como? Tenta de novo aí."
+        },
+        {
+          "text": "Acho que é vírus, sei lá.",
+          "outcome": "wrong",
+          "reply": "Vírus onde? Manda foto depois."
+        }
+      ]
+    },
+    {
+      "id": "1.4b",
+      "name": "Algo estranho (variação)",
+      "theme": "engenharia_social",
+      "archetype": "E",
+      "zoneId": "z4",
+      "variant": true,
+      "npc": "Ponte quebrada",
+      "prompt": "O painel da ponte travou de novo. Mesmo esquema: tente o básico e peça ajuda na hora certa.",
+      "howTo": "A barra mostra suas tentativas (e o tempo estimado se você continuar sozinho). Clique em Pedir ajuda quando achar que é a hora. Depois escolha a mensagem.",
+      "severity": "medio",
+      "effectId": "helpVague",
+      "effectWrong": "Resposta vaga de novo.",
+      "feedbackRule": "Viu algo estranho? Tente só o básico, sem clicar no que pede senha ou pagamento, e peça ajuda dizendo o que viu, o que já fez e até quando precisa.",
+      "feedbackWhy": "Pedir cedo demais gasta a ajuda dos outros; tarde demais deixa o problema crescer; pedido vago recebe resposta vaga.",
+      "seconds": 8,
+      "early": 0.3,
+      "late": 0.75,
+      "barLabel": "Tentando de novo",
+      "steps": [
+        "Reiniciando o painel...",
+        "Aviso: \"atualização obrigatória, clique no link\"...",
+        "O link pede seu e-mail e senha...",
+        "A trava continua fechada..."
+      ],
+      "options": [
+        {
+          "text": "Socorro!!!",
+          "outcome": "wrong",
+          "reply": "Calma! O que houve?"
+        },
+        {
+          "text": "Reiniciei o painel; agora ele mostra uma \"atualização obrigatória\" com um link que pede e-mail e senha. Não cliquei. Preciso passar antes do estande abrir.",
+          "outcome": "ideal",
+          "reply": "Esse link é golpe. Valeu por não clicar: já liberei a trava pelo modo manual."
+        }
+      ]
+    },
+    {
+      "id": "1.6",
+      "name": "Reportar a tentativa de golpe",
+      "theme": "engenharia_social",
+      "archetype": "D",
+      "zoneId": "z5",
+      "npc": "Estande",
+      "lines": [
+        "No meio da montagem, chega um e-mail no celular do estande: \"Premiação do evento! Clique e informe a senha da empresa para receber.\"",
+        "Você: Premiação? Ninguém falou nada de prêmio hoje...",
+        "O remetente parece da organização do evento, mas o endereço termina com um domínio estranho.",
+        "Você: E tá pedindo a senha da empresa. Isso não tá certo.",
+        "Parece que foi enviado para a equipe inteira."
+      ],
+      "prompt": "Chegou uma tentativa de golpe. O que você faz?",
+      "howTo": "Escolha o que fazer.",
+      "severity": "grave",
+      "effectId": "hankUp",
+      "effectWrong": "Você ficou quieto. Alguém da equipe clicou no link, e o Hank ficou sabendo por outra pessoa.",
+      "feedbackRule": "Tentativa de golpe se reporta logo, pelo canal oficial, com o que chegou (print) e dizendo que você não clicou.",
+      "feedbackWhy": "Reportado cedo, a segurança avisa todo mundo antes que alguém caia; descoberto tarde, vira problema da equipe inteira.",
+      "retryVariantId": "1.6b",
+      "options": [
+        {
+          "text": "Mandar para {org.lider} e {org.seguranca} pelo {channels.urgent}: \"Chegou um e-mail falso de premiação pedindo a senha da empresa. Não cliquei. Print em anexo. Avisem a equipe.\"",
+          "outcome": "ideal",
+          "reply": "Valeu por avisar! Já mandei o alerta para todo mundo."
+        },
+        {
+          "text": "Mandar: \"acho que tem um golpe aí\".",
+          "outcome": "acceptable",
+          "reply": "Que golpe? Onde? Manda o print."
+        },
+        {
+          "text": "Não falar nada: você não clicou mesmo.",
+          "outcome": "wrong",
+          "reply": "(O telefone começa a tocar: alguém clicou.)"
+        }
+      ],
+      "uploadLabel": "Enviando para {org.lider} pelo {channels.urgent}"
+    },
+    {
+      "id": "1.6b",
+      "name": "Reportar a tentativa de golpe (variação)",
+      "theme": "engenharia_social",
+      "archetype": "D",
+      "zoneId": "z5",
+      "variant": true,
+      "npc": "Estande",
+      "lines": [
+        "Agora um SMS: \"Seu crachá do evento foi bloqueado. Clique para reativar.\"",
+        "Você: Bloqueado? Mas eu acabei de passar o crachá na catraca...",
+        "O link é curtinho, desses encurtados, e o número tem DDD de outro estado.",
+        "Você: Outro golpe. Não vou clicar."
+      ],
+      "prompt": "Mais uma tentativa. E agora?",
+      "howTo": "Escolha o que fazer.",
+      "severity": "grave",
+      "effectId": "hankUp",
+      "effectWrong": "Silêncio de novo. O telefone tocou.",
+      "feedbackRule": "Tentativa de golpe se reporta logo, pelo canal oficial, com o que chegou (print) e dizendo que você não clicou.",
+      "feedbackWhy": "Reportado cedo, a segurança avisa todo mundo antes que alguém caia; descoberto tarde, vira problema da equipe inteira.",
+      "options": [
+        {
+          "text": "Esperar alguém perguntar.",
+          "outcome": "wrong",
+          "reply": "(O telefone começa a tocar.)"
+        },
+        {
+          "text": "Avisar {org.seguranca} pelo {channels.urgent}: \"SMS falso sobre crachá bloqueado, com link. Não cliquei. Print anexado.\"",
+          "outcome": "ideal",
+          "reply": "Perfeito, obrigado. Alerta enviado."
+        }
+      ],
+      "uploadLabel": "Enviando para {org.lider} pelo {channels.urgent}"
+    }
+  ]
+}

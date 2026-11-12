@@ -1,0 +1,377 @@
+# Cenas espontâneas entre os NPCs da sede (lidas por HubLife / SocialScript).
+#
+# === id_da_cena                  começa uma cena
+# elenco: A=Rafa B=Theo|Caio C=*  quem pode ser cada papel: nome, nomes separados por |,
+#                                 um temperamento (extro, timido, preguica, nervoso, mal,
+#                                 arrog, calmo) ou * (qualquer um); !Nome exclui (*|!Hank)
+# relacao: A B rival|inimigo      (opcional) a relação entre A e B precisa ser uma destas:
+#                                 amigo, rival, desconfia, respeito, inimigo, neutro
+# precisa: cafeteira              (opcional) só acontece se isso aconteceu há pouco
+#                                 (cafeteira, cochilo, bronca, pizza, elogio, briga, risada,
+#                                 entrega, barulho, favor)
+# interrompe: B                   (opcional) B pode estar trabalhando: para e volta depois
+# peso: 2                         (opcional) chance maior de ser escolhida
+#
+# Falas:  A>B humor gesto | texto
+#   humor: neutro sorrindo rindo surpreso confuso irritado pensativo serio satisfeito
+#          desconfiado nervoso timido cansado entediado
+#   gesto: - explicar discutir ombros aponta rir bracos quadril cocar facepalm nervoso
+#          espreguicar aceno sim nao
+#   [amigo] [rival] [desconfia] [respeito] [inimigo] [neutro] [outro] antes do humor:
+#          variações seguidas da mesma fala; vale a que bater com a relação de quem fala
+#          com quem ouve ([outro] = nenhuma das anteriores)
+#   ! antes do | : interrompe a fala anterior antes de ela terminar
+#   {A} {B} {C}: o primeiro nome de quem faz o papel
+# Ações:  @ A chega | sai | cumprimenta B | entrega B item | aponta B/lugar | rir |
+#         levanta B | chama B | olha B/lugar | senta
+#         (lugares: cafeteira, mesa, bancada, planta, porta, quadro)
+# Pausa:  ~ 1.5
+
+=== cafeteira_rivais
+elenco: A=Rafa B=Theo
+precisa: cafeteira
+peso: 3
+A>B irritado discutir | Theo. De novo a cafeteira?
+B>A sorrindo ombros | Eu só apertei o botão. Uma vez.
+A>B irritado aponta | O histórico diz doze vezes.
+B>A confuso cocar | ...doze é muito?
+A>B irritado discutir ! | Ela tem limite, Theo! Igual eu!
+@ A aponta cafeteira
+B>A [rival] desconfiado bracos | Ela gosta mais de mim, aceita.
+B>A [outro] rindo rir | Tá bom, tá bom! Te pago um pão de queijo.
+A>B [rival] irritado facepalm | Aff. Toda vez.
+A>B [outro] satisfeito sim | ...com requeijão.
+@ A sai
+
+=== cafeteira_geral
+elenco: A=* B=*
+precisa: cafeteira
+A>B pensativo explicar | Viu que a cafeteira deu pau de novo?
+B>A surpreso - | De novo? Erro 418?
+A>B serio sim | "Sou um bule." Ela insiste nisso.
+B>A [amigo] rindo rir | Haha! Pelo menos ela é honesta.
+B>A [outro] entediado ombros | Ninguém nesse prédio se assume.
+@ A rir
+
+=== fofoca_balcao
+elenco: A=Caio B=Lia
+relacao: A B amigo
+peso: 2
+A>B sorrindo explicar | Cê ficou sabendo do pacote azul?
+B>A nervoso nervoso | Ai, qual? Era pra mim? Eu assinei?
+A>B sorrindo aponta | Não! Era do Hank. Veio sem remetente.
+B>A surpreso - | Gente. Sem remetente?
+A>B desconfiado explicar | E pediu pra ele "confirmar os dados".
+B>A serio sim ! | Isso é golpe. Tá no treinamento!
+A>B satisfeito sim | Foi o que eu falei. Ninguém me ouve.
+B>A sorrindo rir | Eu te ouço. Às vezes.
+@ A rir
+
+=== fofoca_tres
+elenco: A=Caio B=Lia|Theo C=*
+A>B sorrindo explicar | Sabia que o estagiário pulou o muro?
+B>A surpreso - | Pulou o muro? Pra quê?
+@ C chega
+C>A pensativo cocar | Falando do estagiário? Ele é bom.
+A>C sorrindo ombros | Esforçado. Esquisito, mas esforçado.
+B>C [amigo] rindo rir | Igualzinho a gente no primeiro dia.
+B>C [outro] serio bracos | Esforço sem crachá não vale.
+C>B satisfeito sim | Hm. Justo.
+@ C sai
+
+=== obra_eterna
+elenco: A=Hank B=Duda
+relacao: A B desconfia|rival|inimigo
+interrompe: B
+peso: 2
+@ A chama B
+A>B serio bracos | Duda. A ala norte. Previsão?
+~ 1.2
+B>A cansado cocar | Hmm... semana que vem.
+A>B irritado discutir | Você falou isso em 2023.
+B>A cansado ombros | E eu tava certa. Era uma semana que vem.
+A>B irritado facepalm | ...eu não vou discutir semântica.
+A>B serio aponta | Prazo é prazo.
+@ A sai
+B>B cansado espreguicar | ...que prazo cansativo.
+
+=== chao_molhado
+elenco: A=Nina B=Duda|Caio|Jo
+relacao: A B inimigo|rival|desconfia
+peso: 2
+A>B irritado aponta | Ei! Olha a pegada no meu chão!
+B>A confuso ombros | Que pegada?
+A>B irritado discutir ! | Essa! Do tamanho do teu pé!
+B>A [inimigo] irritado discutir | Chão é pra pisar, Nina.
+B>A [rival] entediado quadril | Eu ando rápido demais pra deixar pegada.
+B>A [outro] nervoso nervoso | Foi mal, foi mal! Já limpo!
+A>B desconfiado bracos | Hm. Sei.
+@ A aponta B
+A>B serio - | Da próxima vez, limpa o pé.
+@ B sai
+
+=== entrega_rivais
+elenco: A=Jo B=Caio
+relacao: A B rival
+peso: 2
+A>B entediado quadril | Doze minutos, Caio. Novo recorde.
+B>A desconfiado bracos | Recorde de quê? Pizza fria?
+A>B irritado discutir ! | Fria?! Saiu do forno ontem! Digo, agora!
+B>A rindo rir | HAHAHA! Ontem!
+A>B irritado facepalm | ...isso foi um erro de digitação falado.
+B>A sorrindo explicar | Carta registrada eu entrego em seis.
+A>B entediado ombros | Carta não tem queijo.
+B>A sorrindo sim | Carta não esfria.
+@ A sai
+
+=== pizza_amigos
+elenco: A=Jo B=Theo
+precisa: pizza
+A>B sorrindo explicar | A pizza de sexta chegou adiantada.
+B>A rindo rir | Hoje é terça, Jo!
+A>B entediado quadril | Sexta é um estado de espírito.
+B>A satisfeito sim | Gostei. Vou usar isso.
+@ B rir
+
+=== horta_temperos
+elenco: A=Theo B=Gabi
+relacao: A B amigo
+peso: 2
+A>B sorrindo explicar | Gabi! O manjericão tá pronto?
+B>A timido nervoso | É que... ele ainda tá crescendo...
+A>B sorrindo quadril | Sem pressa! Só queria o cheirinho.
+B>A timido - | ...pode cheirar. Devagar.
+@ A aponta planta
+A>B satisfeito sim | Isso aqui vira um molho histórico.
+B>A sorrindo - | ...ele vai gostar de ser molho.
+@ A rir
+
+=== cacto_pisado
+elenco: A=Gabi B=Jo
+relacao: A B desconfia
+A>B timido nervoso | Desculpa, mas... você pisou no cacto?
+B>A entediado ombros | O cacto tava no meu caminho.
+A>B irritado - | O cacto mora ali.
+B>A surpreso - | ...ok, isso foi firme.
+A>B timido nervoso | ...desculpa. Mas ele mora.
+B>A satisfeito sim | Respeito. Vou dar a volta.
+
+=== cumprimento_manha
+elenco: A=extro B=*
+@ A cumprimenta B
+A>B sorrindo aceno | Bom dia, {B}!
+B>A [amigo] sorrindo aceno | Bom dia! Dormiu bem?
+B>A [rival] entediado - | ...bom dia.
+B>A [desconfia] desconfiado - | Bom dia. Por quê?
+B>A [outro] sorrindo sim | Bom dia! Já bateu o ponto?
+A>B surpreso facepalm | Ops. O ponto. Já volto.
+@ A sai
+
+=== ajuda_caixa
+elenco: A=Duda|Rafa|Theo B=Rafa|Duda|Caio|Theo
+relacao: A B amigo|respeito|neutro
+peso: 2
+A>B cansado espreguicar | {B}, me ajuda com essa caixa?
+B>A sorrindo sim | Bora. No três.
+@ A levanta B
+A>B cansado - | Pesa mais que o meu salário.
+B>A rindo rir | Isso não é difícil.
+@ A rir
+
+=== ajuda_caixa_rival
+elenco: A=Rafa|Theo B=Theo|Rafa
+relacao: A B rival
+A>B serio aponta | Segura aí. Não derruba.
+B>A desconfiado bracos | Por que eu derrubaria?
+A>B irritado discutir | Porque você derrubou a cafeteira.
+B>A irritado discutir ! | Uma vez!
+@ A levanta B
+A>B serio sim | ...valeu. Não conta pra ninguém.
+
+=== chama_atencao
+elenco: A=Hank B=*
+interrompe: B
+@ A chama B
+A>B serio bracos | {B}, uma palavrinha.
+B>A nervoso nervoso | Fiz alguma coisa?
+A>B serio aponta | O crachá. Cadê o crachá?
+B>A surpreso cocar | ...tá no bolso.
+A>B irritado discutir | Crachá é no peito. Visível.
+B>A [respeito] serio sim | Pode deixar, Hank.
+B>A [outro] entediado ombros | Tá, tá. No peito.
+@ A sai
+
+=== email_estranho
+elenco: A=Lia B=Gois|Hank|Nina
+A>B nervoso explicar | Chegou um e-mail pedindo minha senha.
+B>A surpreso - | Pedindo a senha? De quem?
+A>B nervoso nervoso | Do "Suporte Cristal Azul". Com dois L.
+B>A serio aponta | Dois L. Isso é golpe.
+A>B nervoso - ! | Eu sabia! Eu sabia! Não respondi!
+B>A [respeito] satisfeito sim | Muito bem. Reporta pra TI.
+B>A [outro] serio sim | Reporta. E apaga.
+A>B satisfeito sim | Reportando! Agora!
+@ A sai
+
+=== professor_explica
+elenco: A=Gois B=*
+A>B pensativo explicar | Sabe por que a gente confirma por outro canal?
+B>A confuso cocar | Porque... o primeiro canal pode mentir?
+A>B satisfeito sim | Exato. Quem pede pressa, pede cuidado.
+@ A aponta porta
+A>B pensativo explicar | Pergunta sempre: quem está pedindo?
+B>A [respeito] satisfeito sim | Vou anotar isso.
+B>A [rival] entediado ombros | Isso é o senhor que diz.
+B>A [outro] pensativo sim | Faz sentido.
+
+=== metodo_vs_prazo
+elenco: A=Gois B=Hank
+relacao: A B rival
+A>B pensativo explicar | Hank, o estagiário precisa de tempo pra aprender.
+B>A serio bracos | Ele precisa entregar.
+A>B serio - | Quem aprende direito entrega duas vezes.
+B>A irritado discutir ! | Entrega uma vez, no prazo!
+A>B pensativo cocar | Hm. Prazo sem método é retrabalho.
+~ 1
+B>A entediado ombros | ...vou pensar nisso. Prazo: amanhã.
+@ A rir
+
+=== cochilo_comentario
+elenco: A=*|!Hank B=*|!Hank
+precisa: cochilo
+A>B rindo explicar | Viu o Hank acordando {quem} no banco?
+B>A rindo rir | Vi! "Tava revisando mentalmente!"
+A>B sorrindo sim | Clássico.
+@ A rir
+
+=== bronca_comentario
+elenco: A=*|!Hank B=*|!Hank
+precisa: bronca
+A>B nervoso - | O Hank tá de mau humor hoje.
+B>A pensativo - | Hoje? Hoje é dia útil.
+A>B rindo rir | Haha! Verdade.
+
+=== elogio_comentario
+elenco: A=*|!Gois B=*|!Gois
+precisa: elogio
+A>B surpreso explicar | O Professor elogiou o trabalho de alguém!
+B>A surpreso - | Elogiou? Com palavras?
+A>B satisfeito sim | "Qualidade 99,1%." Com vírgula e tudo.
+B>A rindo rir | Vou emoldurar se for comigo.
+
+=== briga_comentario
+elenco: A=* B=*
+precisa: briga
+A>B nervoso aponta | Ouviu a discussão ali?
+B>A entediado ombros | Toda semana. Já faz parte do clima.
+A>B pensativo - | Acho que é amor e ódio.
+B>A sorrindo sim | Mais ódio. Com café.
+
+=== favor_estagiario
+elenco: A=* B=*
+precisa: favor
+A>B sorrindo explicar | O estagiário me ajudou agorinha.
+B>A surpreso - | Sério? Ajudou como?
+A>B satisfeito sim | Levou uma coisa pro outro lado da praça.
+B>A [amigo] sorrindo sim | Esse vai longe.
+B>A [outro] desconfiado bracos | Hm. Tá querendo efetivação.
+
+=== preguica_no_banco
+elenco: A=Duda B=*
+A>B cansado espreguicar | Que calor...
+~ 1.4
+B>A pensativo - | Tá trinta graus.
+A>B cansado - | ...trinta graus de trabalho.
+B>A [amigo] rindo rir | Haha. Senta um pouco.
+B>A [outro] entediado ombros | Trabalho não esquenta ninguém.
+@ A senta
+
+=== nervosa_telefone
+elenco: A=Lia B=*
+A>B nervoso nervoso | Acho que o telefone vai tocar.
+B>A confuso - | Como você sabe?
+A>B nervoso explicar | Sexto sentido. Ou ansiedade.
+~ 1.2
+B>A pensativo - | ...não tocou.
+A>B nervoso - | Ainda.
+
+=== arrogante_recorde
+elenco: A=Jo B=*
+A>B entediado quadril | Fiz três entregas antes do café.
+B>A [amigo] surpreso - | Três?! Antes do café?
+B>A [rival] desconfiado bracos | Prova.
+B>A [outro] pensativo - | Hm. E o café?
+A>B satisfeito aponta | Óbvio. De nada.
+B>A entediado ombros | Eu nem agradeci.
+A>B entediado - ! | Agradeceu por dentro.
+
+=== zeladora_professor
+elenco: A=Nina B=Gois
+A>B satisfeito sim | Professor. Limpou o pé. Obrigada.
+B>A pensativo - | Sempre, Nina. Método.
+A>B sorrindo - | Se todo mundo fosse assim...
+B>A satisfeito sim | Um dia. Um pé de cada vez.
+@ A rir
+
+=== mecanico_duda
+elenco: A=Rafa B=Duda
+relacao: A B respeito
+A>B serio aponta | Essa viga tá torta, Duda.
+B>A cansado - | ...ela tá descansando.
+A>B serio bracos | Viga não descansa.
+B>A cansado ombros | Essa descansa.
+A>B pensativo cocar | ...tá, eu te ajudo amanhã.
+B>A satisfeito sim | Amanhã é um ótimo dia.
+
+=== timida_elogio
+elenco: A=Gabi B=*
+A>B timido - | ...gostei da sua roupa.
+B>A surpreso - | Ah! Obrigado! A sua também!
+A>B timido nervoso | ...é a mesma de ontem.
+B>A rindo rir | Então era bonita ontem também!
+
+=== despedida
+elenco: A=* B=*
+A>B sorrindo aceno | Bom, vou nessa. Fui!
+B>A [amigo] sorrindo aceno | Até! Traz um café na volta!
+B>A [outro] neutro aceno | Até mais.
+@ A sai
+
+=== reuniao_email
+elenco: A=* B=*
+A>B pensativo explicar | Reunião às três?
+B>A entediado ombros | Podia ser um e-mail.
+A>B serio sim | Sempre pode.
+B>A rindo rir | O e-mail também podia ser nada.
+
+=== cracha_esquecido
+elenco: A=Lia|Nina B=*
+A>B serio aponta | Cadê teu crachá?
+B>A surpreso cocar | Esqueci em casa!
+A>B nervoso discutir | Sem crachá não entra! Regra!
+B>A [amigo] sorrindo explicar | Mas eu já entrei...
+B>A [outro] irritado discutir | Eu trabalho aqui há anos!
+A>B serio bracos | Regra é regra. Visitante assina o livro.
+B>A cansado - | ...vou buscar.
+@ B sai
+
+=== entrega_presente
+elenco: A=Caio|Theo B=*
+relacao: A B amigo|respeito|neutro
+A>B sorrindo explicar | Trouxe uma coisa pra você.
+@ A entrega B pacote
+B>A surpreso - | Pra mim? O que é?
+A>B sorrindo ombros | Abre! Não é golpe, juro.
+B>A [amigo] rindo rir | Vindo de você, nunca se sabe!
+B>A [outro] desconfiado bracos | Quem jura costuma ser golpe.
+A>B rindo rir | Haha! É um pão de queijo.
+
+=== quadro_avisos
+elenco: A=* B=*
+@ A aponta quadro
+A>B pensativo explicar | Leu o aviso novo do mural?
+B>A confuso cocar | Qual? O da senha ou o da pizza?
+A>B serio - | O da senha. Não anotar no post-it.
+B>A nervoso - ! | ...eu tenho que tirar um post-it.
+A>B rindo rir | Haha! Corre!
+@ B sai

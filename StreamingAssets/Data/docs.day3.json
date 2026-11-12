@@ -1,0 +1,60 @@
+{
+  "_comment": "Papéis da Copiadora rebelde (Fase 3) e do treino no depósito. cls: public, internal ou confidential.",
+  "documents": [
+    {
+      "title": "Folheto de promoções",
+      "cls": "public",
+      "why": "É feito para o cliente ver."
+    },
+    {
+      "title": "Tabela de preços da vitrine",
+      "cls": "public",
+      "why": "Já fica exposta na entrada."
+    },
+    {
+      "title": "Horário de funcionamento",
+      "cls": "public",
+      "why": "Está até na porta."
+    },
+    {
+      "title": "Escala de turnos da equipe",
+      "cls": "internal",
+      "why": "É da equipe, não do público, mas não tem dado sensível."
+    },
+    {
+      "title": "Planilha de cadastros por cidade",
+      "cls": "internal",
+      "why": "Só conta clientes por cidade, sem identificar ninguém, mas é da empresa."
+    },
+    {
+      "title": "Manual do túnel de lavagem",
+      "cls": "internal",
+      "why": "Procedimento interno da equipe."
+    },
+    {
+      "title": "Meta de vendas do mês",
+      "cls": "internal",
+      "why": "Número da empresa: não vai para o mural da rua."
+    },
+    {
+      "title": "Cadastro de clientes com CPF",
+      "cls": "confidential",
+      "why": "Dado pessoal de cliente: só quem precisa."
+    },
+    {
+      "title": "Folha de pagamento",
+      "cls": "confidential",
+      "why": "Salário é dado pessoal de cada colega."
+    },
+    {
+      "title": "Contrato com dados do cliente",
+      "cls": "confidential",
+      "why": "Tem nome, CPF e endereço do cliente."
+    },
+    {
+      "title": "Atestado médico de um colega",
+      "cls": "confidential",
+      "why": "Dado de saúde é dos mais sensíveis."
+    }
+  ]
+}

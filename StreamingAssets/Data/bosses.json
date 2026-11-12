@@ -1,0 +1,104 @@
+{
+  "bosses": [
+    {
+      "id": "ac",
+      "name": "Totem de credenciamento invadido",
+      "teaches": "Não clicar nem pagar, desconectar da rede sem desligar tudo, avisar a segurança pelo canal oficial e registrar.",
+      "intro": "O totem de credenciamento do estande foi invadido e está pedindo resgate! Siga o procedimento, na ordem, desviando dos ataques. Nos momentos em que ele trava (luz verde), cada passo certo tira um pouco do controle do invasor.",
+      "steps": [
+        {
+          "id": "call",
+          "label": "Não clicar nem pagar o resgate",
+          "done": "Você ignorou a tela de resgate: nada foi pago."
+        },
+        {
+          "id": "channel",
+          "label": "Desconectar da rede (sem desligar)",
+          "done": "Cabo de rede fora: o invasor perdeu a conexão, e as pistas continuam no totem."
+        },
+        {
+          "id": "isolate",
+          "label": "Avisar {org.seguranca} pelo {channels.urgent}",
+          "done": "Aviso dado pelo canal oficial: a segurança está a caminho."
+        },
+        {
+          "id": "register",
+          "label": "Registrar o que aconteceu",
+          "done": "Ataque registrado para o {channels.announcement} e a Segurança."
+        }
+      ],
+      "trap": {
+        "label": "Reiniciar o totem sozinho",
+        "effect": "Você reiniciou sozinho: as pistas sumiram e o ataque voltou mais forte!"
+      },
+      "wrongOrder": "Fora de ordem: o ataque se espalhou.",
+      "rule": "Em ataque, não clique nem pague, desconecte o equipamento da rede sem desligar tudo, avise a segurança pelo canal oficial e registre o que aconteceu. Não reinicie sozinho.",
+      "why": "Desligar ou reiniciar apaga as pistas do ataque; desconectado e reportado, a segurança descobre por onde o invasor entrou."
+    },
+    {
+      "id": "server",
+      "name": "Servidor travado",
+      "teaches": "Não clicar, reportar, isolar, aguardar orientação",
+      "intro": "O servidor travou e está cuspindo e-mails falsos e pop-ups! Não clique em nada: desvie, reporte, isole e aguarde a orientação.",
+      "wrongOrder": "Fora de ordem! O servidor travou ainda mais.",
+      "rule": "Incidente de segurança: não clique, reporte em {report.securityIncident}, isole o equipamento da rede e aguarde orientação.",
+      "why": "Mexer sozinho apaga pistas e espalha o problema; isolado e reportado, o time de segurança resolve sem perder dados.",
+      "steps": [
+        {
+          "id": "dodge",
+          "label": "Desviar dos pop-ups",
+          "done": "Você sobreviveu à primeira onda sem clicar em nada."
+        },
+        {
+          "id": "report",
+          "label": "Reportar em {report.securityIncident}",
+          "done": "Incidente reportado. A Segurança está a caminho."
+        },
+        {
+          "id": "isolate",
+          "label": "Isolar: tirar o cabo de rede",
+          "done": "Servidor isolado da rede. Os pop-ups perdem força."
+        },
+        {
+          "id": "wait",
+          "label": "Aguardar orientação",
+          "done": "A Segurança assumiu. O servidor voltou ao normal."
+        }
+      ],
+      "trap": {
+        "label": "Reiniciar o servidor sozinho",
+        "effect": "Reiniciou sozinho: o servidor travou de vez e cuspiu mais pop-ups!"
+      }
+    },
+    {
+      "id": "copier",
+      "name": "Copiadora rebelde",
+      "teaches": "Classificar documentos por confidencialidade",
+      "intro": "A copiadora enlouqueceu e está cuspindo papéis nas esteiras! Pegue cada papel e entregue no destino certo: público, interno ou confidencial. Papel confidencial não pode chegar no visitante do fim da esteira.",
+      "wrongOrder": "Destino errado!",
+      "rule": "Todo documento tem um nível: público (qualquer um vê), interno (só quem é da empresa) ou confidencial (só quem precisa). Na dúvida, trate como confidencial.",
+      "why": "Papel confidencial na mão errada expõe clientes, colegas e a empresa; classificar antes de guardar ou mandar evita o vazamento.",
+      "steps": [
+        {
+          "id": "public",
+          "label": "Público",
+          "done": "Público: pode ficar no mural."
+        },
+        {
+          "id": "internal",
+          "label": "Interno",
+          "done": "Interno: só para a equipe."
+        },
+        {
+          "id": "confidential",
+          "label": "Confidencial",
+          "done": "Confidencial: no armário trancado."
+        }
+      ],
+      "trap": {
+        "label": "Jogar tudo no lixo comum",
+        "effect": "Papel no lixo comum qualquer um pega! A copiadora cuspiu mais papéis."
+      }
+    }
+  ]
+}

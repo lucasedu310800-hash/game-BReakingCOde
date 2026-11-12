@@ -1,0 +1,8 @@
+{
+  "items": [
+    { "id": "cafe", "name": "Café Forte", "cost": 10, "effect": "taskTime", "value": 0.85, "description": "-15% no tempo das tasks pela duração da fase." },
+    { "id": "atalho", "name": "Atalho de Teclado", "cost": 15, "effect": "fastAnim", "value": 2.0, "description": "Animações de minigames mais rápidas." },
+    { "id": "meta", "name": "Meta Ousada", "cost": 0, "effect": "boldGoal", "value": 1.3, "value2": 1.5, "description": "+30% na meta e +50% nos cristais ganhos (risco e recompensa)." },
+    { "id": "fones", "name": "Tampa de Fones", "cost": 12, "effect": "quietRing", "value": 0.5, "description": "Reduz em 50% o toque do Hank." }
+  ]
+}

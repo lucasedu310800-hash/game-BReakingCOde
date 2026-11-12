@@ -1,0 +1,16 @@
+{
+  "hankCalls": [
+    "Fala, garoto. Só conferindo. O evento era pra estar pronto, né? Sem pressão. Nenhuma.",
+    "Olha, eu tô vendo o relógio daqui. Você tá vendo o relógio? Porque eu tô.",
+    "Advertência verbal. Tô anotando. Com caneta. De tinta permanente.",
+    "Se isso não fechar agora, pode esquecer o bônus. Aquele vale-churrasco era seu.",
+    "Última ligação antes da suspensão. Eu tô falando sério. Quase sempre eu tô.",
+    "Tá demitido. Passa no RH amanhã e devolve o crachá. E o grampeador."
+  ],
+  "firedTitle": "DEMITIDO",
+  "firedText": "O Hank ligou seis vezes. Na sexta, ele nem esperou você atender: o crachá já foi desativado e sua planta da mesa foi adotada pelo RH.",
+  "satisfactionQuestion": "De 1 a 5, o quanto o dia de hoje te ajudou a entender a empresa?",
+  "goalMissed": "Meta de cristais não batida. Use o banco de horas: refaça as tasks erradas (valem no máximo \"aceitável\").",
+  "genericChannel": "o canal indicado pela empresa",
+  "genericPerson": "a pessoa responsável"
+}

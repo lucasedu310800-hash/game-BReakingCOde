@@ -1,0 +1,91 @@
+{
+  "companyName": "Cristal Azul Ltda.",
+  "channels": {
+    "urgent": "telefone do plantão",
+    "question": "chat da equipe",
+    "announcement": "mural de avisos",
+    "sensitive": "conversa direta com o gestor"
+  },
+  "orgChart": [
+    {
+      "role": "lider",
+      "title": "Líder da equipe",
+      "name": "Walter",
+      "handles": [
+        "programação do evento",
+        "prioridades"
+      ]
+    },
+    {
+      "role": "rh",
+      "title": "RH",
+      "name": "Dona Marta",
+      "handles": [
+        "crachá",
+        "atestados",
+        "férias"
+      ]
+    },
+    {
+      "role": "seguranca",
+      "title": "Segurança",
+      "name": "Seu Jorge",
+      "handles": [
+        "acesso",
+        "visitantes",
+        "incidentes"
+      ]
+    },
+    {
+      "role": "manutencao",
+      "title": "Manutenção",
+      "name": "Rafa",
+      "handles": [
+        "equipamentos",
+        "elétrica",
+        "ar-condicionado"
+      ]
+    },
+    {
+      "role": "financeiro",
+      "title": "Financeiro",
+      "name": "Dona Cida",
+      "handles": [
+        "notas",
+        "pagamentos",
+        "aprovações"
+      ]
+    }
+  ],
+  "policies": {
+    "giftLimit": 0,
+    "approvedTools": [
+      "chat da equipe",
+      "e-mail da empresa"
+    ],
+    "approvedStorage": [
+      "pasta da equipe",
+      "nuvem da empresa"
+    ]
+  },
+  "reportChannels": {
+    "securityIncident": "canal de incidentes da Segurança",
+    "misconduct": "canal de ética",
+    "privacyRequest": "encarregado de dados"
+  },
+  "culture": {
+    "values": [
+      "qualidade",
+      "transparência",
+      "cuidado com as pessoas"
+    ],
+    "rituals": [
+      "daily",
+      "1:1"
+    ]
+  },
+  "timeLimits": {
+    "soloSeconds": 600,
+    "coopMultiplier": 0.75
+  }
+}

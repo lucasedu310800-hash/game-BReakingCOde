@@ -1,0 +1,18 @@
+{
+  "_comment": "Parâmetros [AJUSTAR] da especificação. Edite aqui, não no código.",
+  "soloSeconds": 600,
+  "coopMultiplier": 0.75,
+  "fallPenaltySeconds": 2,
+  "bossHitPenaltySeconds": 5,
+  "firstTryCreditSeconds": 3,
+  "penaltyLight": 5,
+  "penaltyMedium": 10,
+  "penaltyGrave": 20,
+  "crystalsIdeal": 3,
+  "crystalsAcceptable": 1,
+  "crystalsWrong": 0,
+  "ringSeconds": 2,
+  "callBoxSeconds": 4.5,
+  "hankTriggers": [0, 15, 30, 45, 60, 75],
+  "hankIntervals": [25, 20, 15, 12, 10, 0]
+}

@@ -1,0 +1,142 @@
+{
+  "id": "phase1",
+  "name": "Estrada do evento",
+  "day": 1,
+  "theme": "Golpes e engenharia social",
+  "timeLimitSeconds": 600,
+  "crystalGoal": 12,
+  "bossId": "ac",
+  "zones": [
+    {
+      "id": "z0",
+      "order": 0,
+      "name": "Área do trailer",
+      "targetSeconds": 0,
+      "taskIds": [
+        "t0"
+      ],
+      "parkour": false,
+      "npcIds": [
+        "walter"
+      ],
+      "gate": {
+        "type": "door",
+        "label": "A estrada se abre",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z1",
+      "order": 1,
+      "name": "Acampamento de chegada",
+      "targetSeconds": 70,
+      "taskIds": [
+        "1.1"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Portão de arame",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z2",
+      "order": 2,
+      "name": "Trilha de caixas e dunas",
+      "targetSeconds": 90,
+      "taskIds": [
+        "1.2"
+      ],
+      "parkour": true,
+      "npcIds": [],
+      "gate": {
+        "type": "bridge",
+        "label": "Rampa de madeira",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z3",
+      "order": 3,
+      "name": "Posto de recepção",
+      "targetSeconds": 90,
+      "taskIds": [
+        "1.3",
+        "1.5"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Corredor entre carros",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z4",
+      "order": 4,
+      "name": "Cânion estreito",
+      "targetSeconds": 90,
+      "taskIds": [
+        "c1",
+        "1.4"
+      ],
+      "parkour": true,
+      "npcIds": [
+        "talker"
+      ],
+      "gate": {
+        "type": "bridge",
+        "label": "Ponte consertada",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z5",
+      "order": 5,
+      "name": "Estande",
+      "targetSeconds": 90,
+      "taskIds": [
+        "build",
+        "1.6"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Fumaça ao fundo",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z6",
+      "order": 6,
+      "name": "Arena do totem de credenciamento",
+      "targetSeconds": 100,
+      "taskIds": [],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Porta do trailer",
+        "closesBehind": false,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    }
+  ]
+}

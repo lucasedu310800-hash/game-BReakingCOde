@@ -1,0 +1,657 @@
+{
+  "_comment": "Dia 3: Privacidade de dados. Textos aceitam {org.<role>}, {orgTitle.<role>} e {report.x} de company.config.json.",
+  "tasks": [
+    {
+      "theme": "privacidade",
+      "archetype": "C",
+      "zoneId": "z2",
+      "npc": "Mesa do caixa",
+      "severity": "grave",
+      "effectId": "fraud",
+      "howTo": "Clique em cada informação que é dado pessoal ou sensível para marcá-la. Depois escolha o que fazer com a ficha.",
+      "effectWrong": "Os dados da cliente vazaram: cristais saem voando do cofre, e isso vai aparecer no relatório.",
+      "feedbackRule": "Dado pessoal é tudo o que identifica alguém (nome, CPF, telefone, endereço); dado de saúde é sensível. Guarde com acesso restrito, mande só o necessário e não colete o que ninguém pediu.",
+      "feedbackWhy": "Dado pessoal exposto vira golpe contra a pessoa e problema legal para a empresa; dado sensível vazado é ainda mais grave.",
+      "confirmLabel": "O que você faz com a ficha?",
+      "mechanic": "",
+      "id": "3.1",
+      "name": "Isto é dado pessoal?",
+      "retryVariantId": "3.1b",
+      "prompt": "Chegou uma ficha de cadastro do clube de vantagens. Antes de guardar, marque o que é dado pessoal ou sensível.",
+      "show": "FICHA DE CADASTRO · Clube de Vantagens\n  Nome: Marina Lopes\n  CPF: 123.456.789-00\n  Telefone: (11) 9 5555-0123\n  Alergia: dipirona\n  Plano: Lavagem Ouro · R$ 89,90\n  Unidade: Centro",
+      "pieces": [
+        {
+          "text": "Nome completo",
+          "correct": true
+        },
+        {
+          "text": "CPF",
+          "correct": true
+        },
+        {
+          "text": "Telefone",
+          "correct": true
+        },
+        {
+          "text": "Alergia (dado de saúde, sensível)",
+          "correct": true
+        },
+        {
+          "text": "Preço do plano",
+          "correct": false
+        },
+        {
+          "text": "Nome da unidade",
+          "correct": false
+        }
+      ],
+      "options": [
+        {
+          "text": "Guardar a ficha no sistema, com acesso só para quem atende, e tirar a alergia, que o clube não precisa",
+          "outcome": "ideal",
+          "reply": "A ficha fica protegida, e o dado de saúde sai do cadastro."
+        },
+        {
+          "text": "Guardar a ficha na gaveta do balcão",
+          "outcome": "acceptable",
+          "reply": "Ficou longe do mural, mas qualquer um do turno abre a gaveta."
+        },
+        {
+          "text": "Colar a ficha no mural para a equipe lembrar da cliente",
+          "outcome": "wrong",
+          "reply": "Agora todo mundo que passa sabe o CPF e a alergia da Marina."
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "C",
+      "zoneId": "z2",
+      "npc": "Mesa do caixa",
+      "severity": "grave",
+      "effectId": "fraud",
+      "howTo": "Clique em cada informação que é dado pessoal ou sensível para marcá-la. Depois escolha o que fazer com a planilha.",
+      "effectWrong": "Os dados do colega vazaram: cristais saem voando do cofre, e isso vai aparecer no relatório.",
+      "feedbackRule": "Dado pessoal é tudo o que identifica alguém (nome, CPF, telefone, endereço); dado de saúde é sensível. Guarde com acesso restrito, mande só o necessário e não colete o que ninguém pediu.",
+      "feedbackWhy": "Dado pessoal exposto vira golpe contra a pessoa e problema legal para a empresa; dado sensível vazado é ainda mais grave.",
+      "confirmLabel": "O que você faz com a planilha?",
+      "mechanic": "",
+      "id": "3.1b",
+      "name": "Isto é dado pessoal? (variação)",
+      "variant": true,
+      "prompt": "Agora é a planilha do turno, que vai para o quadro da escala.",
+      "show": "PLANILHA · Equipe do turno\n  Rafael Souza\n  Endereço: Rua das Flores, 90\n  Exame admissional: apto, com restrição de coluna\n  Turno: manhã\n  Setor: túnel de lavagem",
+      "pieces": [
+        {
+          "text": "Endereço de casa",
+          "correct": true
+        },
+        {
+          "text": "Restrição de saúde do exame",
+          "correct": true
+        },
+        {
+          "text": "Turno",
+          "correct": false
+        },
+        {
+          "text": "Setor",
+          "correct": false
+        }
+      ],
+      "options": [
+        {
+          "text": "Marcar os dados pessoais e mandar para o quadro só nome, turno e setor",
+          "outcome": "ideal",
+          "reply": "A escala sai certa, sem expor a casa nem a saúde do Rafael."
+        },
+        {
+          "text": "Mandar a planilha inteira, mas só para {org.lider}",
+          "outcome": "acceptable",
+          "reply": "Ficou com uma pessoa só, mas foi mais do que ela precisava."
+        },
+        {
+          "text": "Imprimir a planilha inteira e pendurar no quadro da escala",
+          "outcome": "wrong",
+          "reply": "A restrição de saúde do Rafael virou assunto no refeitório."
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "A",
+      "zoneId": "z1",
+      "npc": "Balcão de atendimento",
+      "severity": "medio",
+      "effectId": "exposed",
+      "howTo": "Clique num campo da ficha e depois em Manter ou Cobrir. Quando todos tiverem destino, aperte Entregar.",
+      "effectWrong": "Um dado pessoal que não precisava sair foi parar nas mãos de gente de fora.",
+      "feedbackRule": "Antes de enviar algo para fora, cubra o dado pessoal que o destinatário não precisa (CPF, telefone, endereço).",
+      "feedbackWhy": "Dado pessoal exposto sem necessidade é risco para o cliente e problema legal para a empresa.",
+      "targets": [
+        {
+          "key": "keep",
+          "label": "Manter"
+        },
+        {
+          "key": "cover",
+          "label": "Cobrir"
+        }
+      ],
+      "mechanic": "",
+      "id": "3.2",
+      "name": "Dados pessoais",
+      "retryVariantId": "3.2b",
+      "prompt": "A oficina parceira vai consertar um arranhão no carro de um cliente. Você vai mandar a ficha para ela.",
+      "items": [
+        {
+          "text": "Placa do carro",
+          "target": "keep"
+        },
+        {
+          "text": "Modelo e cor",
+          "target": "keep"
+        },
+        {
+          "text": "Onde está o arranhão",
+          "target": "keep"
+        },
+        {
+          "text": "CPF do cliente",
+          "target": "cover"
+        },
+        {
+          "text": "Telefone pessoal do cliente",
+          "target": "cover"
+        },
+        {
+          "text": "Endereço de casa",
+          "target": "cover"
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "A",
+      "zoneId": "z1",
+      "npc": "Balcão de atendimento",
+      "severity": "medio",
+      "effectId": "exposed",
+      "howTo": "Clique num campo da ficha e depois em Manter ou Cobrir. Quando todos tiverem destino, aperte Entregar.",
+      "effectWrong": "Um dado pessoal que não precisava sair foi parar nas mãos de gente de fora.",
+      "feedbackRule": "Antes de enviar algo para fora, cubra o dado pessoal que o destinatário não precisa (CPF, telefone, endereço).",
+      "feedbackWhy": "Dado pessoal exposto sem necessidade é risco para o cliente e problema legal para a empresa.",
+      "targets": [
+        {
+          "key": "keep",
+          "label": "Manter"
+        },
+        {
+          "key": "cover",
+          "label": "Cobrir"
+        }
+      ],
+      "mechanic": "",
+      "id": "3.2b",
+      "name": "Dados pessoais (variação)",
+      "variant": true,
+      "prompt": "Agora é a lista de clientes do mês que vai para a gráfica imprimir os cupons de desconto.",
+      "items": [
+        {
+          "text": "Primeiro nome",
+          "target": "keep"
+        },
+        {
+          "text": "Código do cupom",
+          "target": "keep"
+        },
+        {
+          "text": "CPF",
+          "target": "cover"
+        },
+        {
+          "text": "Data de nascimento",
+          "target": "cover"
+        },
+        {
+          "text": "Placa do carro",
+          "target": "cover"
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "D",
+      "zoneId": "z4",
+      "npc": "Representante da gráfica parceira",
+      "severity": "grave",
+      "effectId": "hankUp",
+      "howTo": "Leia o que ele diz e escolha sua resposta.",
+      "effectWrong": "Dados de clientes saíram da empresa sem autorização: o Hank ficou sabendo.",
+      "feedbackRule": "Compartilhar dado pessoal com outra empresa só com autorização, pelo canal oficial e com o mínimo que a tarefa precisa.",
+      "feedbackWhy": "Cada dado a mais que sai é mais um que pode vazar, e o cliente não autorizou que a empresa espalhasse o cadastro dele.",
+      "mechanic": "",
+      "id": "3.3",
+      "name": "Compartilhar com terceiros",
+      "retryVariantId": "3.3b",
+      "prompt": "O representante da gráfica que imprime os cupons aparece no pátio com um pedido.",
+      "lines": [
+        "E aí, parceiro! Pra mandar os cupons de fim de ano, me passa a lista de clientes completa? Nome, CPF, telefone, endereço...",
+        "Manda num pen drive, que é mais rápido. Ninguém vai ver."
+      ],
+      "options": [
+        {
+          "text": "\"Só passo o que a ação precisa, com autorização de {org.lider} e pelo canal oficial: nome e cupom. CPF e endereço, não.\"",
+          "outcome": "ideal",
+          "reply": "\"Justo. Nome e cupom já servem.\""
+        },
+        {
+          "text": "\"Vou ver com {org.lider} antes de mandar qualquer coisa.\"",
+          "outcome": "acceptable",
+          "reply": "Ele espera. A lista sai certa, mas a campanha atrasou."
+        },
+        {
+          "text": "\"Toma o pen drive com tudo.\"",
+          "outcome": "wrong",
+          "reply": "A lista completa saiu da empresa sem autorização."
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "D",
+      "zoneId": "z4",
+      "npc": "Representante da gráfica parceira",
+      "severity": "grave",
+      "effectId": "hankUp",
+      "howTo": "Leia o que ele diz e escolha sua resposta.",
+      "effectWrong": "Dados de clientes saíram da empresa sem autorização: o Hank ficou sabendo.",
+      "feedbackRule": "Compartilhar dado pessoal com outra empresa só com autorização, pelo canal oficial e com o mínimo que a tarefa precisa.",
+      "feedbackWhy": "Cada dado a mais que sai é mais um que pode vazar, e o cliente não autorizou que a empresa espalhasse o cadastro dele.",
+      "mechanic": "",
+      "id": "3.3b",
+      "name": "Compartilhar com terceiros (variação)",
+      "variant": true,
+      "prompt": "O representante volta, agora com outra ideia.",
+      "lines": [
+        "Sem a lista, então. Mas me passa só os telefones, pra gente oferecer um seguro pros seus clientes? Todo mundo ganha!",
+        "É rapidinho, ninguém precisa saber."
+      ],
+      "options": [
+        {
+          "text": "\"Não. Os clientes não autorizaram isso, e eu vou registrar o pedido com {org.lider}.\"",
+          "outcome": "ideal",
+          "reply": "Ele guarda o celular e vai embora apressado."
+        },
+        {
+          "text": "\"Não, obrigado.\"",
+          "outcome": "acceptable",
+          "reply": "Ele insiste um pouco e desiste."
+        },
+        {
+          "text": "\"Fechado!\" (mandar os telefones)",
+          "outcome": "wrong",
+          "reply": "Os clientes começam a receber ligações de seguro. Isso tem nome."
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "D",
+      "zoneId": "z4",
+      "npc": "Paula, das Compras",
+      "severity": "medio",
+      "effectId": "comesBack",
+      "howTo": "Leia o que ela diz e escolha sua resposta.",
+      "effectWrong": "O problema não sumiu: dois papéis a mais apareceram no depósito.",
+      "feedbackRule": "Papel ou equipamento com dado pessoal se descarta de forma segura: papel na trituradora, disco apagado pela TI. Nunca no lixo comum.",
+      "feedbackWhy": "Lixo comum qualquer um revira, e arquivo apagado na lixeira ainda pode ser recuperado: os dois viram vazamento.",
+      "mechanic": "",
+      "id": "3.4",
+      "name": "Descarte seguro",
+      "retryVariantId": "3.4b",
+      "prompt": "Paula, das Compras, está limpando o arquivo antigo do lava-rápido.",
+      "lines": [
+        "Novato, me ajuda a limpar o arquivo? Essas caixas são de fichas de clientes antigas, de 2019.",
+        "Joga tudo na caçamba lá fora, que o caminhão do lixo passa hoje."
+      ],
+      "options": [
+        {
+          "text": "\"Ficha com dado pessoal não vai pro lixo comum. Levo pra trituradora e registro o descarte.\"",
+          "outcome": "ideal",
+          "reply": "\"Nem lembrava da trituradora. Obrigada!\" Ela anota no processo."
+        },
+        {
+          "text": "\"Deixa as caixas aí que depois alguém vê.\"",
+          "outcome": "acceptable",
+          "reply": "As caixas ficam no corredor, abertas."
+        },
+        {
+          "text": "\"Pode deixar, jogo na caçamba.\"",
+          "outcome": "wrong",
+          "reply": "As fichas se espalham pela calçada com o vento."
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "D",
+      "zoneId": "z4",
+      "npc": "Paula, das Compras",
+      "severity": "medio",
+      "effectId": "comesBack",
+      "howTo": "Leia o que ela diz e escolha sua resposta.",
+      "effectWrong": "O problema não sumiu: dois papéis a mais apareceram no depósito.",
+      "feedbackRule": "Papel ou equipamento com dado pessoal se descarta de forma segura: papel na trituradora, disco apagado pela TI. Nunca no lixo comum.",
+      "feedbackWhy": "Lixo comum qualquer um revira, e arquivo apagado na lixeira ainda pode ser recuperado: os dois viram vazamento.",
+      "mechanic": "",
+      "id": "3.4b",
+      "name": "Descarte seguro (variação)",
+      "variant": true,
+      "prompt": "Paula volta com outro pedido.",
+      "lines": [
+        "Agora o notebook velho do balcão: vou vender pra um conhecido.",
+        "É só esvaziar a lixeira antes, né?"
+      ],
+      "options": [
+        {
+          "text": "\"Antes, pede para a TI apagar o disco de forma segura. Arquivo apagado da lixeira ainda dá pra recuperar.\"",
+          "outcome": "ideal",
+          "reply": "\"Certo, chamo a TI.\""
+        },
+        {
+          "text": "\"Melhor não vender ainda.\"",
+          "outcome": "acceptable",
+          "reply": "O notebook fica na gaveta, com os dados dentro."
+        },
+        {
+          "text": "\"Isso, esvazia a lixeira e pronto.\"",
+          "outcome": "wrong",
+          "reply": "O conhecido acha o cadastro dos clientes no disco."
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "D",
+      "zoneId": "z3",
+      "npc": "Seu Gérson, o apressado",
+      "severity": "medio",
+      "effectId": "report",
+      "howTo": "Leia o que ele diz e escolha sua resposta.",
+      "effectWrong": "O \"jeitinho\" com os dados ficou registrado no relatório, e o time inteiro vai ter que refazer o checklist.",
+      "feedbackRule": "Dado de cliente só circula por canal aprovado pela empresa, nunca pelo celular ou WhatsApp pessoal, e dado de um cliente não se passa para outro.",
+      "feedbackWhy": "No celular pessoal a empresa não controla quem vê, por quanto tempo fica nem para onde vai.",
+      "mechanic": "",
+      "id": "3.5",
+      "name": "O jeitinho com os dados",
+      "retryVariantId": "3.5b",
+      "prompt": "Na saída do túnel, um cliente aflito quer um atalho.",
+      "lines": [
+        "Moço, tô atrasado! Me manda a foto da vistoria e o meu cadastro no seu WhatsApp pessoal, que é mais rápido.",
+        "E aproveita e me passa o telefone daquele cliente do carro vermelho, que bateu no meu."
+      ],
+      "options": [
+        {
+          "text": "\"Pelo meu WhatsApp pessoal não posso, nem passar dado de outro cliente. Mando a vistoria agora pelo canal oficial da empresa.\"",
+          "outcome": "ideal",
+          "reply": "Chega no e-mail dele em um minuto. Cliente atendido."
+        },
+        {
+          "text": "\"Não dá, o senhor espera o canal oficial.\"",
+          "outcome": "acceptable",
+          "reply": "Ele espera bufando. Funcionou, mas dava para ajudar mais."
+        },
+        {
+          "text": "\"Tá bom, só dessa vez.\" (mandar tudo pelo seu WhatsApp)",
+          "outcome": "wrong",
+          "reply": "Agora o cadastro de dois clientes está no seu celular pessoal."
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "D",
+      "zoneId": "z3",
+      "npc": "Seu Gérson, o apressado",
+      "severity": "medio",
+      "effectId": "report",
+      "howTo": "Leia o que ele diz e escolha sua resposta.",
+      "effectWrong": "O \"jeitinho\" com os dados ficou registrado no relatório, e o time inteiro vai ter que refazer o checklist.",
+      "feedbackRule": "Dado de cliente só circula por canal aprovado pela empresa, nunca pelo celular ou WhatsApp pessoal, e dado de um cliente não se passa para outro.",
+      "feedbackWhy": "No celular pessoal a empresa não controla quem vê, por quanto tempo fica nem para onde vai.",
+      "mechanic": "",
+      "id": "3.5b",
+      "name": "O jeitinho com os dados (variação)",
+      "variant": true,
+      "prompt": "Outro cliente na saída do túnel.",
+      "lines": [
+        "A maquininha tá lenta. Anota o número do meu cartão num papel e passa depois, beleza?",
+        "Ou tira uma foto dele com o seu celular."
+      ],
+      "options": [
+        {
+          "text": "\"Cartão eu não anoto nem fotografo. Passo na maquininha agora, pelo caminho oficial.\"",
+          "outcome": "ideal",
+          "reply": "Leva um minuto a mais, e o cartão dele não fica em lugar nenhum."
+        },
+        {
+          "text": "\"Não, só na maquininha.\"",
+          "outcome": "acceptable",
+          "reply": "Ele paga, resmungando."
+        },
+        {
+          "text": "\"Fechado, tiro a foto.\"",
+          "outcome": "wrong",
+          "reply": "A foto do cartão vai junto para o backup automático do seu celular."
+        }
+      ]
+    },
+    {
+      "theme": "engenharia_social",
+      "archetype": "C",
+      "zoneId": "z2",
+      "npc": "Celular da mesa do caixa",
+      "severity": "grave",
+      "effectId": "fraud",
+      "howTo": "Clique nas partes da mensagem que parecem estranhas para marcá-las como pista. Depois escolha o que fazer.",
+      "effectWrong": "A \"fraude\" aconteceu: cristais saem voando do cofre.",
+      "feedbackRule": "Pedido de dinheiro ou dado por mensagem se confirma por outro canal: ligue para o número que você já tem da pessoa.",
+      "feedbackWhy": "Golpistas imitam o chefe e usam a pressa. Confirmar por outro canal leva um minuto e evita o prejuízo.",
+      "confirmLabel": "O que você faz?",
+      "mechanic": "",
+      "id": "3.6",
+      "name": "O chefe que pede pelo celular",
+      "retryVariantId": "3.6b",
+      "prompt": "O celular do caixa vibra. É uma mensagem de um número novo.",
+      "show": "(11) 9 4821-0073 · novo contato\n\nOi, aqui é o {org.lider}, troquei de número. Tô numa reunião e não posso falar.\nPreciso que você faça um PIX de R$ 3.800 para esse fornecedor AGORA, senão perdemos o contrato.\nNão comenta com ninguém, depois eu explico.",
+      "pieces": [
+        {
+          "text": "Número desconhecido (\"troquei de número\")",
+          "correct": true
+        },
+        {
+          "text": "Não pode falar, só por mensagem",
+          "correct": true
+        },
+        {
+          "text": "Pressa (\"AGORA\")",
+          "correct": true
+        },
+        {
+          "text": "Pede segredo",
+          "correct": true
+        },
+        {
+          "text": "Menciona um fornecedor",
+          "correct": false
+        }
+      ],
+      "options": [
+        {
+          "text": "Ligar para o número antigo de {org.lider}, que você já tem, para confirmar",
+          "outcome": "ideal",
+          "reply": "{org.lider} atende: \"Não mandei nada! Bloqueia esse número.\""
+        },
+        {
+          "text": "Não fazer nada e esperar ele voltar da reunião",
+          "outcome": "acceptable",
+          "reply": "O dinheiro ficou, mas ninguém avisou os outros funcionários do golpe."
+        },
+        {
+          "text": "Fazer o PIX: é o chefe pedindo",
+          "outcome": "wrong",
+          "reply": "O PIX saiu. O \"chefe\" sumiu."
+        }
+      ]
+    },
+    {
+      "theme": "engenharia_social",
+      "archetype": "C",
+      "zoneId": "z2",
+      "npc": "Celular da mesa do caixa",
+      "severity": "grave",
+      "effectId": "fraud",
+      "howTo": "Clique nas partes da mensagem que parecem estranhas para marcá-las como pista. Depois escolha o que fazer.",
+      "effectWrong": "A \"fraude\" aconteceu: cristais saem voando do cofre.",
+      "feedbackRule": "Pedido de dinheiro ou dado por mensagem se confirma por outro canal: ligue para o número que você já tem da pessoa.",
+      "feedbackWhy": "Golpistas imitam o chefe e usam a pressa. Confirmar por outro canal leva um minuto e evita o prejuízo.",
+      "confirmLabel": "O que você faz?",
+      "mechanic": "",
+      "id": "3.6b",
+      "name": "O chefe que pede pelo celular (variação)",
+      "variant": true,
+      "prompt": "Outra mensagem chega no mesmo celular.",
+      "show": "{orgTitle.rh} · {org.rh} (perfil sem foto)\n\nOi! Atualização cadastral urgente.\nMe manda hoje a senha do sistema do caixa e o código que chegou por SMS, senão seu salário atrasa.",
+      "pieces": [
+        {
+          "text": "Perfil sem foto e fora do padrão",
+          "correct": true
+        },
+        {
+          "text": "Pede senha",
+          "correct": true
+        },
+        {
+          "text": "Pede o código do SMS",
+          "correct": true
+        },
+        {
+          "text": "Fala em salário",
+          "correct": false
+        }
+      ],
+      "options": [
+        {
+          "text": "Ligar para {org.rh} pelo ramal que você já conhece e confirmar",
+          "outcome": "ideal",
+          "reply": "\"Eu nunca peço senha!\" O golpe é avisado para todos."
+        },
+        {
+          "text": "Ignorar a mensagem",
+          "outcome": "acceptable",
+          "reply": "Você não caiu, mas ninguém mais foi avisado."
+        },
+        {
+          "text": "Mandar a senha e o código",
+          "outcome": "wrong",
+          "reply": "Alguém entrou no sistema do caixa com o seu usuário."
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "A",
+      "zoneId": "z1",
+      "npc": "Cliente no balcão",
+      "severity": "medio",
+      "effectId": "risk",
+      "howTo": "Clique num pedido e depois no destino certo. Quando todos tiverem destino, aperte Entregar.",
+      "effectWrong": "Você respondeu por conta própria um pedido sobre dados, e isso gerou risco no mapa.",
+      "feedbackRule": "Pedido do cliente sobre os próprios dados (saber, corrigir, apagar) vai para o canal responsável: {report.privacyRequest}.",
+      "feedbackWhy": "Esses pedidos têm prazo e regras legais. Resposta improvisada pode apagar o que não devia ou expor o que não podia.",
+      "targets": [
+        {
+          "key": "privacy",
+          "label": "{report.privacyRequest}"
+        },
+        {
+          "key": "desk",
+          "label": "Resolver no balcão"
+        },
+        {
+          "key": "self",
+          "label": "Responder eu mesmo, de cabeça"
+        }
+      ],
+      "mechanic": "",
+      "id": "3.7",
+      "name": "Pedido do cliente sobre os próprios dados",
+      "retryVariantId": "3.7b",
+      "prompt": "Uma fila de clientes no balcão. Cada um tem um pedido: mande cada pedido para o lugar certo.",
+      "items": [
+        {
+          "text": "\"Quero saber quais dados meus vocês guardam.\"",
+          "target": "privacy"
+        },
+        {
+          "text": "\"Apaguem meu cadastro de vocês.\"",
+          "target": "privacy"
+        },
+        {
+          "text": "\"Quero agendar uma lavagem para sábado.\"",
+          "target": "desk"
+        },
+        {
+          "text": "\"Quanto custa a cera?\"",
+          "target": "desk"
+        }
+      ]
+    },
+    {
+      "theme": "privacidade",
+      "archetype": "A",
+      "zoneId": "z1",
+      "npc": "Cliente no balcão",
+      "severity": "medio",
+      "effectId": "risk",
+      "howTo": "Clique num pedido e depois no destino certo. Quando todos tiverem destino, aperte Entregar.",
+      "effectWrong": "Você respondeu por conta própria um pedido sobre dados, e isso gerou risco no mapa.",
+      "feedbackRule": "Pedido do cliente sobre os próprios dados (saber, corrigir, apagar) vai para o canal responsável: {report.privacyRequest}.",
+      "feedbackWhy": "Esses pedidos têm prazo e regras legais. Resposta improvisada pode apagar o que não devia ou expor o que não podia.",
+      "targets": [
+        {
+          "key": "privacy",
+          "label": "{report.privacyRequest}"
+        },
+        {
+          "key": "desk",
+          "label": "Resolver no balcão"
+        },
+        {
+          "key": "self",
+          "label": "Responder eu mesmo, de cabeça"
+        }
+      ],
+      "mechanic": "",
+      "id": "3.7b",
+      "name": "Pedido do cliente sobre os próprios dados (variação)",
+      "variant": true,
+      "prompt": "Mais clientes no balcão.",
+      "items": [
+        {
+          "text": "\"Meu telefone no cadastro está errado, corrigem?\"",
+          "target": "privacy"
+        },
+        {
+          "text": "\"Para quem vocês passaram meus dados?\"",
+          "target": "privacy"
+        },
+        {
+          "text": "\"Esqueci meu guarda-chuva aqui ontem.\"",
+          "target": "desk"
+        }
+      ]
+    }
+  ]
+}

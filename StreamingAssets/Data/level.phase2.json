@@ -1,0 +1,140 @@
+{
+  "id": "phase2",
+  "name": "Descendo para o superlab",
+  "day": 2,
+  "theme": "Segurança da informação",
+  "timeLimitSeconds": 600,
+  "crystalGoal": 12,
+  "bossId": "server",
+  "zones": [
+    {
+      "id": "z0",
+      "order": 0,
+      "name": "Lavanderia",
+      "targetSeconds": 0,
+      "taskIds": [],
+      "parkour": false,
+      "npcIds": [
+        "walter"
+      ],
+      "gate": {
+        "type": "door",
+        "label": "O elevador desce",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z1",
+      "order": 1,
+      "name": "Sala de terminais",
+      "targetSeconds": 80,
+      "taskIds": [
+        "2.1",
+        "2.2"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Porta eletrônica",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z2",
+      "order": 2,
+      "name": "Corredor de armários",
+      "targetSeconds": 80,
+      "taskIds": [
+        "2.3",
+        "2.4"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Porta que fecha atrás",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z3",
+      "order": 3,
+      "name": "Sala de descanso",
+      "targetSeconds": 70,
+      "taskIds": [
+        "2.5",
+        "2.6"
+      ],
+      "parkour": false,
+      "npcIds": [
+        "marcos"
+      ],
+      "gate": {
+        "type": "door",
+        "label": "Escada de serviço",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z4",
+      "order": 4,
+      "name": "Sala de arquivos",
+      "targetSeconds": 60,
+      "taskIds": [
+        "2.7"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Esteira principal",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z5",
+      "order": 5,
+      "name": "Tubulações",
+      "targetSeconds": 100,
+      "taskIds": [
+        "2.8"
+      ],
+      "parkour": true,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Escada",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z6",
+      "order": 6,
+      "name": "Sala do servidor",
+      "targetSeconds": 100,
+      "taskIds": [],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "elevator",
+        "label": "Elevador de volta",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    }
+  ]
+}

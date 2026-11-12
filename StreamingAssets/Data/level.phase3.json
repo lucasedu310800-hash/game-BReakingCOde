@@ -1,0 +1,136 @@
+{
+  "id": "phase3",
+  "name": "A linha de lavagem",
+  "day": 3,
+  "theme": "Privacidade de dados",
+  "timeLimitSeconds": 600,
+  "crystalGoal": 11,
+  "bossId": "copier",
+  "zones": [
+    {
+      "id": "z0",
+      "order": 0,
+      "name": "Portão",
+      "targetSeconds": 0,
+      "taskIds": [],
+      "parkour": false,
+      "npcIds": [
+        "walter"
+      ],
+      "gate": {
+        "type": "door",
+        "label": "Cancela",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z1",
+      "order": 1,
+      "name": "Balcão de atendimento",
+      "targetSeconds": 80,
+      "taskIds": [
+        "3.2",
+        "3.7"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Porta lateral",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z2",
+      "order": 2,
+      "name": "Escritório do caixa",
+      "targetSeconds": 80,
+      "taskIds": [
+        "3.1",
+        "3.6"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Porta dos fundos",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z3",
+      "order": 3,
+      "name": "Túnel de lavagem",
+      "targetSeconds": 100,
+      "taskIds": [
+        "3.5"
+      ],
+      "parkour": true,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Saída do túnel",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z4",
+      "order": 4,
+      "name": "Pátio de secagem",
+      "targetSeconds": 80,
+      "taskIds": [
+        "3.3",
+        "3.4"
+      ],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Portão de serviço",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z5",
+      "order": 5,
+      "name": "Depósito",
+      "targetSeconds": 60,
+      "taskIds": [],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Porta de aço",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    },
+    {
+      "id": "z6",
+      "order": 6,
+      "name": "Sala dos fundos",
+      "targetSeconds": 100,
+      "taskIds": [],
+      "parkour": false,
+      "npcIds": [],
+      "gate": {
+        "type": "door",
+        "label": "Saída",
+        "closesBehind": true,
+        "requiresAllPlayers": true
+      },
+      "checkpoint": true
+    }
+  ]
+}

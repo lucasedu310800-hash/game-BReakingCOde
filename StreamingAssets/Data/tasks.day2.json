@@ -1,0 +1,396 @@
+{
+  "_comment": "Dia 2: Segurança da informação. Textos aceitam {companyName}, {channels.x}, {report.securityIncident|misconduct|privacyRequest}, {storage.a|b} (pastas aprovadas), {org.<role>} e {orgTitle.<role>}, vindos de company.config.json.",
+  "tasks": [
+    {
+      "id": "2.1",
+      "name": "Caça às pistas do phishing",
+      "theme": "ciberseguranca",
+      "archetype": "C",
+      "zoneId": "z1",
+      "npc": "Terminal de e-mail",
+      "prompt": "Chegou um e-mail urgente no terminal da sala. Examine a mensagem antes de fazer qualquer coisa.",
+      "howTo": "Clique nas partes do e-mail que parecem suspeitas para marcá-las como pista. Depois escolha o que fazer.",
+      "severity": "medio",
+      "effectId": "popups",
+      "effectWrong": "O anexo abriu e a tela se encheu de janelas falsas.",
+      "feedbackRule": "Antes de agir, confira remetente, urgência exagerada, links e anexos. Golpe se reporta em {report.securityIncident}, sem abrir nada.",
+      "feedbackWhy": "Golpes de phishing dependem de pressa: um clique no anexo pode instalar algo que se espalha pela rede.",
+      "retryVariantId": "2.1b",
+      "show": "De: suporte-ti@cristal-azul-seguranca.co\nAssunto: URGENTE: sua conta será bloqueada em 1 hora!\n\nPrezado colaborador, detectamos acesso indevido. Abra o anexo senha_nova.zip e confirme seus dados em até 60 minutos para não perder o acesso.\n\nEquipe de TI",
+      "pieces": [
+        { "text": "Domínio do remetente estranho (cristal-azul-seguranca.co)", "correct": true },
+        { "text": "Pressa exagerada (\"bloqueada em 1 hora\")", "correct": true },
+        { "text": "Anexo .zip pedindo senha", "correct": true },
+        { "text": "Saudação genérica (\"Prezado colaborador\")", "correct": true },
+        { "text": "Assinatura \"Equipe de TI\"", "correct": false },
+        { "text": "O e-mail chegou de manhã", "correct": false }
+      ],
+      "confirmLabel": "O que você faz com o e-mail?",
+      "options": [
+        { "text": "Reportar como golpe em {report.securityIncident} sem abrir nada", "outcome": "ideal", "reply": "A Segurança confirma: era phishing. O e-mail foi bloqueado para todos." },
+        { "text": "Apagar o e-mail e seguir em frente", "outcome": "acceptable", "reply": "Você escapou, mas os colegas que receberam o mesmo e-mail não foram avisados." },
+        { "text": "Abrir o anexo para ver o que é", "outcome": "wrong", "reply": "Janelas falsas pipocam na tela!" }
+      ],
+      "mechanic": ""
+    },
+    {
+      "id": "2.1b",
+      "name": "Caça às pistas do phishing (variação)",
+      "theme": "ciberseguranca",
+      "archetype": "C",
+      "zoneId": "z1",
+      "variant": true,
+      "npc": "Terminal de e-mail",
+      "prompt": "Outro e-mail apareceu no terminal. Mesma coisa: examine antes de agir.",
+      "howTo": "Clique nas partes do e-mail que parecem suspeitas para marcá-las como pista. Depois escolha o que fazer.",
+      "severity": "medio",
+      "effectId": "popups",
+      "effectWrong": "De novo: o link abriu e as janelas falsas tomaram a tela.",
+      "feedbackRule": "Antes de agir, confira remetente, urgência exagerada, links e anexos. Golpe se reporta em {report.securityIncident}, sem abrir nada.",
+      "feedbackWhy": "Golpes de phishing dependem de pressa: um clique pode instalar algo que se espalha pela rede.",
+      "show": "De: rh.premios@cristalazul-bonus.net\nAssunto: Você ganhou um bônus de R$ 2.000!\n\nParabéns! Para receber, clique em www.cristalazul-bonus.net/resgate e informe sua senha de rede ainda hoje.\n\nRH",
+      "pieces": [
+        { "text": "Remetente fora do domínio da empresa", "correct": true },
+        { "text": "Prêmio bom demais para ser verdade", "correct": true },
+        { "text": "Pede a senha de rede", "correct": true },
+        { "text": "Assinatura só \"RH\"", "correct": false }
+      ],
+      "confirmLabel": "O que você faz com o e-mail?",
+      "options": [
+        { "text": "Reportar como golpe em {report.securityIncident}", "outcome": "ideal", "reply": "Reportado. O RH confirma que não existe esse bônus." },
+        { "text": "Responder perguntando se é verdade", "outcome": "wrong", "reply": "O golpista responde animado e insiste no link." },
+        { "text": "Clicar no link para conferir", "outcome": "wrong", "reply": "A página falsa pede sua senha..." }
+      ],
+      "mechanic": ""
+    },
+    {
+      "id": "2.2",
+      "name": "Passar o mouse antes de clicar",
+      "theme": "ciberseguranca",
+      "archetype": "C",
+      "zoneId": "z1",
+      "npc": "Terminal da intranet",
+      "prompt": "Você precisa baixar o manual do servidor. A mensagem traz três links parecidos.",
+      "howTo": "Passe o mouse sobre cada link para ver o destino real e clique no seguro.",
+      "severity": "medio",
+      "effectId": "fakeLogin",
+      "effectWrong": "Abriu uma tela falsa de login pedindo sua senha.",
+      "feedbackRule": "Passe o mouse antes de clicar: o texto do link pode mentir, o destino real não.",
+      "feedbackWhy": "Links falsos imitam nomes conhecidos para roubar senhas em telas de login falsas.",
+      "retryVariantId": "2.2b",
+      "show": "Equipe, o manual do servidor está disponível no link abaixo. Qualquer dúvida, falem comigo.\n\n— {org.lider}",
+      "options": [
+        { "text": "intranet.cristalazul / manual-servidor", "target": "https://intranet.cristalazul.com.br/manuais/servidor.pdf", "outcome": "ideal", "reply": "O manual abriu direto da intranet." },
+        { "text": "intranet.cristalazul / manual-servidor (cópia)", "target": "http://cristalazul-intranet.login-seguro.ru/entrar", "outcome": "wrong", "reply": "Uma tela de login estranha pede sua senha." },
+        { "text": "Manual do servidor (versão rápida)", "target": "http://bit-curto.xyz/a8F3k", "outcome": "wrong", "reply": "Encurtador desconhecido: a página pede para instalar um \"leitor\"." }
+      ],
+      "mechanic": "hover"
+    },
+    {
+      "id": "2.2b",
+      "name": "Passar o mouse antes de clicar (variação)",
+      "theme": "ciberseguranca",
+      "archetype": "C",
+      "zoneId": "z1",
+      "variant": true,
+      "npc": "Terminal da intranet",
+      "prompt": "Agora é a planilha de escala da semana. De novo, três links.",
+      "howTo": "Passe o mouse sobre cada link para ver o destino real e clique no seguro.",
+      "severity": "medio",
+      "effectId": "fakeLogin",
+      "effectWrong": "Outra tela falsa de login.",
+      "feedbackRule": "Passe o mouse antes de clicar: o texto do link pode mentir, o destino real não.",
+      "feedbackWhy": "Links falsos imitam nomes conhecidos para roubar senhas.",
+      "show": "Escala da semana atualizada. Confiram o horário de vocês.\n\n— RH",
+      "options": [
+        { "text": "Escala da semana", "target": "http://escala-semana.planilhas-gratis.top/abrir", "outcome": "wrong", "reply": "Um site de planilhas grátis pede para você entrar com a senha da empresa." },
+        { "text": "Escala da semana (pasta da equipe)", "target": "https://arquivos.cristalazul.com.br/equipe/escala.xlsx", "outcome": "ideal", "reply": "A planilha abriu na pasta da equipe." },
+        { "text": "Escala (clique aqui)", "target": "http://cristalazul.com.br.verificar-conta.info", "outcome": "wrong", "reply": "O endereço só parece da empresa: o domínio real é outro." }
+      ],
+      "mechanic": "hover"
+    },
+    {
+      "id": "2.3",
+      "name": "Construir uma senha",
+      "theme": "ciberseguranca",
+      "archetype": "F",
+      "zoneId": "z2",
+      "npc": "Console da porta dos armários",
+      "prompt": "Para abrir o corredor de armários você precisa criar a sua senha de acesso. O \"cracker\" do laboratório vai testar.",
+      "howTo": "Escolha 3 regras para a sua senha e confirme o teste.",
+      "severity": "medio",
+      "effectId": "cracked",
+      "effectWrong": "O cracker quebrou a senha em segundos e invadiu o sistema.",
+      "feedbackRule": "Senha boa é longa, única para cada sistema e sem dados pessoais. Uma frase de várias palavras é fácil de lembrar e difícil de quebrar.",
+      "feedbackWhy": "Senha curta cai em minutos; senha repetida deixa um vazamento abrir todas as suas contas.",
+      "retryVariantId": "2.3b",
+      "show": "",
+      "showSeconds": 0,
+      "slots": 3,
+      "pieces": [
+        { "text": "Uma frase longa com 4 palavras (ex.: cavalo-azul-pula-muro)", "correct": true },
+        { "text": "Usada só neste sistema", "correct": true },
+        { "text": "Sem nome, aniversário ou time", "correct": true },
+        { "text": "A mesma senha do e-mail pessoal", "correct": false },
+        { "text": "8 caracteres: Senha123", "correct": false },
+        { "text": "Seu nome + ano de nascimento", "correct": false }
+      ],
+      "confirmLabel": "Mandar para o teste do cracker:",
+      "options": [
+        { "text": "Testar e guardar no gerenciador de senhas da empresa", "outcome": "ideal", "reply": "O cracker desistiu depois de horas. Acesso liberado." },
+        { "text": "Testar e anotar num post-it no monitor", "outcome": "acceptable", "reply": "A senha passou, mas qualquer pessoa que passar pela mesa pode ler." }
+      ],
+      "mechanic": ""
+    },
+    {
+      "id": "2.3b",
+      "name": "Construir uma senha (variação)",
+      "theme": "ciberseguranca",
+      "archetype": "F",
+      "zoneId": "z2",
+      "variant": true,
+      "npc": "Console da porta dos armários",
+      "prompt": "O cracker invadiu o sistema. Crie uma senha nova.",
+      "howTo": "Escolha 3 regras para a sua senha e confirme o teste.",
+      "severity": "medio",
+      "effectId": "cracked",
+      "effectWrong": "Quebrada de novo.",
+      "feedbackRule": "Senha boa é longa, única para cada sistema e sem dados pessoais.",
+      "feedbackWhy": "Senha curta cai em minutos; senha repetida deixa um vazamento abrir todas as suas contas.",
+      "show": "",
+      "showSeconds": 0,
+      "slots": 3,
+      "pieces": [
+        { "text": "A senha antiga com um ! no fim", "correct": false },
+        { "text": "Frase longa e diferente da antiga", "correct": true },
+        { "text": "Nome do seu pet", "correct": false },
+        { "text": "Única para este sistema", "correct": true },
+        { "text": "Sem dados pessoais", "correct": true },
+        { "text": "Só números: 12345678", "correct": false }
+      ],
+      "confirmLabel": "Mandar para o teste do cracker:",
+      "options": [
+        { "text": "Testar e guardar no gerenciador de senhas", "outcome": "ideal", "reply": "Agora sim: o cracker não passou." },
+        { "text": "Testar e mandar para mim mesmo por e-mail", "outcome": "acceptable", "reply": "Passou, mas a senha fica guardada num lugar que pode vazar." }
+      ],
+      "mechanic": ""
+    },
+    {
+      "id": "2.4",
+      "name": "Tela bloqueada",
+      "theme": "ciberseguranca",
+      "archetype": "G",
+      "zoneId": "z2",
+      "npc": "Terminais do corredor",
+      "prompt": "Use os terminais do corredor para liberar as portas. Cada terminal que você deixar aberto fica disponível para qualquer um.",
+      "howTo": "Depois de usar um terminal, aperte E de novo para bloquear a tela antes de se afastar.",
+      "severity": "medio",
+      "effectId": "impostor",
+      "effectWrong": "Um colega usou o terminal aberto em seu nome.",
+      "feedbackRule": "Saiu da frente do computador, bloqueou a tela (Windows + L). Sempre, mesmo que seja por um minuto.",
+      "feedbackWhy": "Um terminal aberto deixa qualquer pessoa agir com o seu acesso, e a culpa fica com você.",
+      "mechanic": "world"
+    },
+    {
+      "id": "2.5",
+      "name": "Pedido de senha emprestada",
+      "theme": "ciberseguranca",
+      "archetype": "D",
+      "zoneId": "z3",
+      "npc": "Marcos, o ajudante",
+      "prompt": "Um colega simpático da sala de descanso tem um pedido.",
+      "howTo": "Leia o que ele diz e escolha sua resposta.",
+      "severity": "grave",
+      "effectId": "blame",
+      "effectWrong": "O colega mexeu onde não devia, e o registro mostra o SEU usuário.",
+      "feedbackRule": "Senha é pessoal: não se empresta, nem para ajudar. Indique o acesso oficial ({orgTitle.seguranca}: {org.seguranca}).",
+      "feedbackWhy": "Tudo o que é feito com o seu login fica no seu nome. Se der problema, a responsabilidade é sua.",
+      "retryVariantId": "2.5b",
+      "lines": [
+        "Ô, novato! Me salva? Meu acesso ainda não foi liberado e eu preciso puxar um relatório rapidinho.",
+        "Me passa a sua senha só agora? Eu juro que é coisa de cinco minutos. Ninguém vai saber."
+      ],
+      "options": [
+        { "text": "\"Não posso passar minha senha. Pede o acesso para {org.seguranca}, que ele libera rápido.\"", "outcome": "ideal", "reply": "\"Tá bom, tá bom... vou lá pedir.\" Ele sai resmungando, mas vai." },
+        { "text": "\"Não, desculpa.\"", "outcome": "acceptable", "reply": "Ele fica sem saber o que fazer e vai pedir para outra pessoa." },
+        { "text": "\"Tá, mas é só dessa vez.\" (passar a senha)", "outcome": "wrong", "reply": "\"Valeu!\" Ele some no corredor com o seu acesso." }
+      ],
+      "mechanic": ""
+    },
+    {
+      "id": "2.5b",
+      "name": "Pedido de senha emprestada (variação)",
+      "theme": "ciberseguranca",
+      "archetype": "D",
+      "zoneId": "z3",
+      "variant": true,
+      "npc": "Marcos, o ajudante",
+      "prompt": "O Marcos volta com outro pedido.",
+      "howTo": "Leia o que ele diz e escolha sua resposta.",
+      "severity": "grave",
+      "effectId": "blame",
+      "effectWrong": "De novo, o registro mostra o seu usuário.",
+      "feedbackRule": "Senha é pessoal: não se empresta. Indique o acesso oficial ({orgTitle.seguranca}: {org.seguranca}).",
+      "feedbackWhy": "Tudo o que é feito com o seu login fica no seu nome.",
+      "lines": [
+        "Então... não precisa me passar a senha. Só faz o login aí no meu computador e me deixa usar um pouquinho?"
+      ],
+      "options": [
+        { "text": "\"Também não dá: seria o meu acesso do mesmo jeito. Vamos juntos pedir o seu para {org.seguranca}.\"", "outcome": "ideal", "reply": "\"Justo.\" Vocês vão até a Segurança." },
+        { "text": "\"Faço, mas fico do lado olhando.\"", "outcome": "wrong", "reply": "Você se distrai um segundo e ele já abriu uma pasta restrita." }
+      ],
+      "mechanic": ""
+    },
+    {
+      "id": "2.6",
+      "name": "O pen drive no chão",
+      "theme": "ciberseguranca",
+      "archetype": "E",
+      "zoneId": "z3",
+      "npc": "Pen drive achado",
+      "prompt": "Tem um pen drive caído no chão da sala de descanso, com a etiqueta \"SALÁRIOS 2025\". A curiosidade está batendo...",
+      "howTo": "Decida o que fazer antes que o medidor de curiosidade encha.",
+      "severity": "grave",
+      "effectId": "virus",
+      "effectWrong": "O pen drive soltou um vírus que se espalha pelos terminais do mapa.",
+      "feedbackRule": "Dispositivo achado não se pluga: entregue para {orgTitle.seguranca} ({org.seguranca}).",
+      "feedbackWhy": "Pen drive \"perdido\" é um golpe clássico: basta plugar para o vírus entrar na rede.",
+      "retryVariantId": "2.6b",
+      "seconds": 9,
+      "barLabel": "Curiosidade",
+      "options": [
+        { "text": "Entregar o pen drive para {org.seguranca} sem plugar", "outcome": "ideal", "reply": "A Segurança agradece: era uma isca com vírus." },
+        { "text": "Deixar onde está", "outcome": "acceptable", "reply": "Você não plugou, mas outra pessoa pode achar e plugar." },
+        { "text": "Plugar no terminal para ver de quem é", "outcome": "wrong", "reply": "O terminal começa a piscar..." }
+      ],
+      "mechanic": "decide"
+    },
+    {
+      "id": "2.6b",
+      "name": "O pen drive no chão (variação)",
+      "theme": "ciberseguranca",
+      "archetype": "E",
+      "zoneId": "z3",
+      "variant": true,
+      "npc": "Cabo USB de brinde",
+      "prompt": "Em cima da mesa tem um carregador USB \"de brinde\", sem dono.",
+      "howTo": "Decida o que fazer antes que o medidor de curiosidade encha.",
+      "severity": "grave",
+      "effectId": "virus",
+      "effectWrong": "O \"carregador\" era um dispositivo de invasão.",
+      "feedbackRule": "Dispositivo de origem desconhecida não se pluga: entregue para {orgTitle.seguranca}.",
+      "feedbackWhy": "Cabos e pen drives podem carregar programas que entram na rede sozinhos.",
+      "seconds": 9,
+      "barLabel": "Curiosidade",
+      "options": [
+        { "text": "Usar para carregar o celular no computador", "outcome": "wrong", "reply": "O computador detecta um \"teclado\" novo e começa a digitar sozinho..." },
+        { "text": "Entregar para {org.seguranca}", "outcome": "ideal", "reply": "Era mesmo um dispositivo de invasão." }
+      ],
+      "mechanic": "decide"
+    },
+    {
+      "id": "2.7",
+      "name": "Onde o dado pode ficar",
+      "theme": "ciberseguranca",
+      "archetype": "A",
+      "zoneId": "z4",
+      "npc": "Esteiras da sala de arquivos",
+      "prompt": "Três esteiras levam arquivos para lugares diferentes. Mande cada arquivo para um destino.",
+      "howTo": "Clique num arquivo e depois no destino. Quando todos tiverem destino, aperte Entregar.",
+      "severity": "medio",
+      "effectId": "leak",
+      "effectWrong": "Um arquivo foi parar fora da empresa e vazou no mapa.",
+      "feedbackRule": "Dado da empresa fica em lugar aprovado: {storage.a} ou {storage.b}. Nunca em e-mail pessoal ou ferramenta de fora.",
+      "feedbackWhy": "Fora dos lugares aprovados ninguém controla quem acessa, e um vazamento vira problema legal.",
+      "retryVariantId": "2.7b",
+      "targets": [
+        { "key": "team", "label": "{storage.a}" },
+        { "key": "cloud", "label": "{storage.b}" },
+        { "key": "personal", "label": "E-mail pessoal" },
+        { "key": "external", "label": "Site de conversão grátis" }
+      ],
+      "items": [
+        { "text": "Planilha de clientes do mês", "target": "team" },
+        { "text": "Contrato assinado (para acessar de casa)", "target": "cloud" },
+        { "text": "Relatório para revisar no fim de semana", "target": "cloud" },
+        { "text": "Apresentação da equipe", "target": "team" }
+      ],
+      "mechanic": ""
+    },
+    {
+      "id": "2.7b",
+      "name": "Onde o dado pode ficar (variação)",
+      "theme": "ciberseguranca",
+      "archetype": "A",
+      "zoneId": "z4",
+      "variant": true,
+      "npc": "Esteiras da sala de arquivos",
+      "prompt": "Nova leva de arquivos nas esteiras.",
+      "howTo": "Clique num arquivo e depois no destino. Quando todos tiverem destino, aperte Entregar.",
+      "severity": "medio",
+      "effectId": "leak",
+      "effectWrong": "Outro arquivo vazou.",
+      "feedbackRule": "Dado da empresa fica em lugar aprovado: {storage.a} ou {storage.b}.",
+      "feedbackWhy": "Fora dos lugares aprovados ninguém controla quem acessa.",
+      "targets": [
+        { "key": "personal", "label": "Pen drive pessoal" },
+        { "key": "team", "label": "{storage.a}" },
+        { "key": "external", "label": "Aplicativo de mensagens pessoal" },
+        { "key": "cloud", "label": "{storage.b}" }
+      ],
+      "items": [
+        { "text": "Lista de senhas do servidor (para o time)", "target": "team" },
+        { "text": "Fotos do evento para a equipe", "target": "cloud" },
+        { "text": "Folha de pagamento", "target": "team" }
+      ],
+      "mechanic": ""
+    },
+    {
+      "id": "2.8",
+      "name": "Errei, e agora?",
+      "theme": "ciberseguranca",
+      "archetype": "E",
+      "zoneId": "z5",
+      "npc": "Seu terminal",
+      "prompt": "Ops. Você clicou num link estranho e o terminal ficou lento, com janelas abrindo sozinhas. Ninguém viu...",
+      "howTo": "Decida o que fazer antes que o vírus se espalhe pela rede.",
+      "severity": "grave",
+      "effectId": "virus",
+      "effectWrong": "Você escondeu, e o vírus se espalhou pelos terminais do laboratório.",
+      "feedbackRule": "Errou? Reporte na hora em {report.securityIncident} e desconecte da rede. Esconder sempre piora.",
+      "feedbackWhy": "Incidente reportado cedo se contém em minutos; escondido, vira problema da empresa inteira.",
+      "retryVariantId": "2.8b",
+      "seconds": 8,
+      "barLabel": "Vírus se espalhando",
+      "options": [
+        { "text": "Tirar o cabo de rede e reportar agora em {report.securityIncident}", "outcome": "ideal", "reply": "A Segurança isola o terminal a tempo. \"Obrigado por avisar rápido!\"" },
+        { "text": "Reiniciar o computador e torcer", "outcome": "wrong", "reply": "Reiniciou... e as janelas voltaram." },
+        { "text": "Fechar as janelas e não contar para ninguém", "outcome": "wrong", "reply": "Ninguém sabe, mas o vírus sabe onde ir." }
+      ],
+      "mechanic": "decide"
+    },
+    {
+      "id": "2.8b",
+      "name": "Errei, e agora? (variação)",
+      "theme": "ciberseguranca",
+      "archetype": "E",
+      "zoneId": "z5",
+      "variant": true,
+      "npc": "Seu terminal",
+      "prompt": "Você mandou uma planilha de clientes para o e-mail errado, de fora da empresa.",
+      "howTo": "Decida o que fazer antes que o tempo acabe.",
+      "severity": "grave",
+      "effectId": "virus",
+      "effectWrong": "Escondido, o erro virou um vazamento de dados.",
+      "feedbackRule": "Errou? Reporte na hora em {report.securityIncident}. Esconder sempre piora.",
+      "feedbackWhy": "Avisado cedo, dá para pedir a exclusão e conter o vazamento.",
+      "seconds": 8,
+      "barLabel": "Tempo para conter",
+      "options": [
+        { "text": "Esperar para ver se alguém percebe", "outcome": "wrong", "reply": "Ninguém percebe, até o cliente ligar furioso." },
+        { "text": "Reportar agora em {report.securityIncident} e avisar {org.lider}", "outcome": "ideal", "reply": "A Segurança pede a exclusão a tempo." }
+      ],
+      "mechanic": "decide"
+    }
+  ]
+}
